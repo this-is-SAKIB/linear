@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Set — Linear Algebra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: { enableMenu: false }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* ─── CSS Variables ──────────────────────────────── */
+        :root {
+            --bg:        #f4f6fb;
+            --bg-card:   #ffffff;
+            --bg-item:   #f8faff;
+            --bg-item-h: #eef2ff;
+            --border:    #dde3f0;
+            --text:      #1a2540;
+            --text-dim:  #5a6a8a;
+            --accent:    #1d4ed8;
+            --h2-color:  #1e3a8a;
+            --h3-color:  #2563eb;
+            --copy-bg:   #e8effe;
+            --copy-fg:   #1d4ed8;
+            --copy-bdr:  #bfcfff;
+            --solve-bg:  #fef0f0;
+            --solve-fg:  #b91c1c;
+            --solve-bdr: #fecaca;
+            --thm-bg:    #f1f5ff;
+            --thm-bdr:   #c7d6ff;
+            --footer-sep:#dde3f0;
+            --glow:      rgba(59,130,246,0.10);
+            --perp-bg:   #f0fdf9;
+            --perp-fg:   #0d7a5f;
+            --perp-bdr:  #a7f3d0;
+            --brave-bg:  #fff5f0;
+            --brave-fg:  #c2410c;
+            --brave-bdr: #fed7aa;
+            --badge-bg:  #eff6ff;
+            --badge-fg:  #1d4ed8;
+            --badge-bdr: #bfdbfe;
+        }
+        .dark {
+            --bg:        #070b14;
+            --bg-card:   #0d1525;
+            --bg-item:   #111927;
+            --bg-item-h: #162035;
+            --border:    #1c2d48;
+            --text:      #cdd9f0;
+            --text-dim:  #4a6080;
+            --accent:    #4f9fff;
+            --h2-color:  #eab308;
+            --h3-color:  #7eb8ff;
+            --copy-bg:   #0f1f38;
+            --copy-fg:   #7eb8ff;
+            --copy-bdr:  #1e3f6a;
+            --solve-bg:  #1a0e0e;
+            --solve-fg:  #f87171;
+            --solve-bdr: #4a1a1a;
+            --thm-bg:    #0c1626;
+            --thm-bdr:   #1a3055;
+            --footer-sep:#1c2d48;
+            --glow:      rgba(78,158,255,0.08);
+            --perp-bg:   #052e22;
+            --perp-fg:   #34d399;
+            --perp-bdr:  #065f46;
+            --brave-bg:  #2a1200;
+            --brave-fg:  #fb923c;
+            --brave-bdr: #7c2d12;
+            --badge-bg:  #0f1f38;
+            --badge-fg:  #7eb8ff;
+            --badge-bdr: #1e3f6a;
+        }
+
+        /* ─── Base ───────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 1.5rem 1rem;
+            transition: background 0.35s ease, color 0.35s ease;
+            line-height: 1.7;
+        }
+
+        /* ─── Page wrapper ───────────────────────────────── */
+        .page-card {
+            max-width: 880px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 2.5rem 3rem;
+            box-shadow: 0 0 0 1px var(--border), 0 24px 80px rgba(0,0,0,0.35);
+            transition: background 0.35s ease, border-color 0.35s ease;
+        }
+        @media (max-width: 640px) {
+            .page-card { padding: 1.25rem 1.1rem 2rem; border-radius: 14px; }
+        }
+
+        /* ─── Top bar ────────────────────────────────────── */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+        .byline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--text-dim);
+            letter-spacing: 0.08em;
+        }
+        .toggle-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 6px 14px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--glow);
+        }
+
+        /* ─── Hero header ────────────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 1rem 0 3.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 1.1rem;
+        }
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.2rem, 6vw, 3.6rem);
+            font-weight: 900;
+            color: var(--h2-color);
+            margin: 0 0 0.6rem;
+            letter-spacing: -0.01em;
+            line-height: 1.1;
+        }
+        .dark h1 {
+            background: linear-gradient(135deg, #f0c060 0%, #fadb82 50%, #e8a820 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: 0.8rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ─── Sections ───────────────────────────────────── */
+        .math-section {
+            margin-bottom: 3.5rem;
+            animation: fadeUp 0.4s ease both;
+        }
+        .math-section:nth-child(1) { animation-delay: 0.05s; }
+        .math-section:nth-child(2) { animation-delay: 0.10s; }
+        .math-section:nth-child(3) { animation-delay: 0.15s; }
+        .math-section:nth-child(4) { animation-delay: 0.20s; }
+        .math-section:nth-child(5) { animation-delay: 0.25s; }
+        .math-section:nth-child(6) { animation-delay: 0.30s; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--h2-color);
+            margin: 0 0 1.5rem;
+            padding: 0.6rem 0 0.6rem 1.1rem;
+            border-left: 3px solid var(--h2-color);
+            background: linear-gradient(to right, var(--glow), transparent);
+            border-radius: 0 6px 6px 0;
+        }
+
+        h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--h3-color);
+            margin: 2rem 0 0.85rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-instruction {
+            font-style: italic;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            padding-left: 0.25rem;
+        }
+
+        /* ─── Problem list ───────────────────────────────── */
+        ol.prob-list {
+            list-style: none;
+            counter-reset: prob;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        ol.prob-list > li {
+            counter-increment: prob;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: var(--bg-item);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.85rem 0.85rem;
+            transition: background 0.18s, border-color 0.18s;
+        }
+        ol.prob-list > li:hover {
+            background: var(--bg-item-h);
+            border-color: var(--accent);
+        }
+
+        /* Bullet-style list (•, ••, •••) */
+        ol.bullet-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        ol.bullet-list > li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: var(--bg-item);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.85rem 0.85rem;
+            transition: background 0.18s, border-color 0.18s;
+        }
+        ol.bullet-list > li:hover {
+            background: var(--bg-item-h);
+            border-color: var(--accent);
+        }
+
+        .prob-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            min-width: 1.4rem;
+            padding-top: 0.2rem;
+            flex-shrink: 0;
+        }
+        ol.prob-list .prob-num::before { content: counter(prob) "."; }
+
+        /* Bullet badges: •, ••, ••• */
+        .bullet-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            background: var(--badge-bg);
+            color: var(--badge-fg);
+            border: 1px solid var(--badge-bdr);
+            border-radius: 6px;
+            padding: 2px 7px;
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 0.12rem;
+        }
+
+        .prob-text {
+            flex: 1;
+            display: block;
+            line-height: 1.7;
+            font-size: 0.97rem;
+            min-width: 0;
+        }
+
+        /* ─── Button group ───────────────────────────────── */
+        .btn-group {
+            display: flex;
+            gap: 0.4rem;
+            flex-shrink: 0;
+            align-items: flex-start;
+            padding-top: 0.1rem;
+        }
+
+        @media (max-width: 640px) {
+            ol.prob-list > li,
+            ol.bullet-list > li {
+                flex-wrap: wrap;
+            }
+            .btn-group {
+                flex-wrap: wrap;
+                width: 100%;
+            }
+        }
+
+        .copy-btn, .solve-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid;
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+            height: 28px;
+            display: flex;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: var(--copy-bg);
+            color: var(--copy-fg);
+            border-color: var(--copy-bdr);
+        }
+        .copy-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79,159,255,0.3);
+        }
+
+        .solve-btn {
+            background: var(--solve-bg);
+            color: var(--solve-fg);
+            border-color: var(--solve-bdr);
+        }
+        .solve-btn:hover {
+            background: #dc2626;
+            color: #fff;
+            border-color: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220,38,38,0.3);
+        }
+
+        .perp-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--perp-bdr);
+            background: var(--perp-bg);
+            color: var(--perp-fg);
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .perp-btn:hover {
+            background: #10b981;
+            color: #fff;
+            border-color: #10b981;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16,185,129,0.35);
+        }
+        .perp-btn .perp-icon {
+            width: 11px; height: 11px; flex-shrink: 0; fill: currentColor;
+        }
+
+        .brave-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--brave-bdr);
+            background: var(--brave-bg);
+            color: var(--brave-fg);
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .brave-btn:hover {
+            background: #ea580c;
+            color: #fff;
+            border-color: #ea580c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(234,88,12,0.35);
+        }
+        .brave-btn .brave-icon {
+            width: 11px; height: 11px; flex-shrink: 0; fill: currentColor;
+        }
+
+        /* ─── Info box (sub-note inside a problem) ───────── */
+        .info-box {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            font-style: italic;
+            margin-top: 0.55rem;
+            padding: 0.45rem 0.7rem;
+            background: var(--thm-bg);
+            border-left: 2px solid var(--thm-bdr);
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* ─── Footer ─────────────────────────────────────── */
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--footer-sep);
+        }
+        .footer-stamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 2.5rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        /* ─── MathJax sizing ─────────────────────────────── */
+        mjx-container { font-size: 1em !important; }
+
+        .section-anchor { scroll-margin-top: 80px; }
+    </style>
+
+    <script>
+        /* ── Dark / Light toggle ── */
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const btn = document.getElementById('modeBtn');
+            btn.textContent = document.documentElement.classList.contains('dark')
+                ? '☀ LIGHT MODE' : '🌙 DARK MODE';
+        }
+
+        /* ── COPY button ── */
+        function copyText(button) {
+            const textToCopy = button.getAttribute('data-content');
+            navigator.clipboard?.writeText(textToCopy).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = textToCopy;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+            });
+            const orig = button.innerText;
+            button.innerText = '✓ DONE';
+            button.style.background = '#16a34a';
+            button.style.color = '#fff';
+            button.style.borderColor = '#16a34a';
+            setTimeout(() => {
+                button.innerText = orig;
+                button.style.background = '';
+                button.style.color = '';
+                button.style.borderColor = '';
+            }, 1500);
+        }
+
+        /* ── GOOGLE button ── */
+        function solveQuestion(button) {
+            const query = button.getAttribute('data-content');
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}&udm=50`, '_blank');
+        }
+
+        /* ── ASK (Perplexity) button ── */
+        function perplexitySearch(button) {
+            const raw = button.getAttribute('data-content');
+            const txt = document.createElement('textarea');
+            txt.innerHTML = raw;
+            const query = txt.value;
+            window.open('https://www.perplexity.ai/search?q=' + encodeURIComponent(query), '_blank');
+        }
+
+        /* ── BRAVE button ── */
+        function braveSearch(button) {
+            const raw = button.getAttribute('data-content');
+            const txt = document.createElement('textarea');
+            txt.innerHTML = raw;
+            const query = txt.value;
+            window.open('https://search.brave.com/ask?q=' + encodeURIComponent(query), '_blank');
+        }
+    </script>
+</head>
+
+<body>
+<div class="page-card">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+        <span class="byline">Created by Md Sakibul Hasan</span>
+        <button id="modeBtn" onclick="toggleDarkMode()" class="toggle-btn">&#9728; LIGHT MODE</button>
+    </div>
+
+    <!-- Hero -->
+    <header class="hero">
+        <p class="hero-eyebrow">Academic Problem Set</p>
+        <h1>Linear Algebra</h1>
+        <p class="hero-sub">Subspaces · Linear Systems · Geometry · Eigenvalues</p>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 0 — BULLET PROBLEMS (•, ••, •••)
+    ════════════════════════════════════════════════════════════ -->
+    <section class="math-section section-anchor" id="sec-bullets">
+        <h2>Preliminary Bullet Problems</h2>
+        <p class="section-instruction">
+            Fix three non-null vectors in $\mathbb{R}^4$, study a subspace
+            $W$, and build a polynomial subspace isomorphic to $U$.
+        </p>
+
+        <ol class="bullet-list">
+
+            <!-- • -->
+            <li>
+                <span class="bullet-badge">•</span>
+                <span class="prob-text">
+                    Fix three non-null vectors $\mathbf{u}, \mathbf{v}, \mathbf{w} \in \mathbb{R}^4$ such that
+                    <strong>only $\mathbf{u}$</strong> belongs to the subspace
+                    $U = \langle\, (4,3,2,1),\; (-1,0,0,0) \,\rangle$.
+                    Explain why the chosen $\mathbf{v}$ and $\mathbf{w}$ do <em>not</em> belong to $U$.
+                    <div class="info-box">
+                        A vector $\mathbf{x} \in \mathbb{R}^4$ belongs to $U$ if and only if it can be written as
+                        $\alpha\,(4,3,2,1) + \beta\,(-1,0,0,0)$ for some $\alpha,\beta \in \mathbb{R}$.
+                        Equivalently, the last three coordinates of $\mathbf{x}$ must satisfy the ratios imposed
+                        by the generator $(4,3,2,1)$: since $(-1,0,0,0)$ only affects the first coordinate,
+                        any $\mathbf{x} \in U$ must have $x_2 : x_3 : x_4 = 3\alpha : 2\alpha : \alpha$,
+                        i.e.\ $x_4 \neq 0 \Rightarrow x_2 = 3x_4$ and $x_3 = 2x_4$.
+                    </div>
+                </span>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyText(this)"
+                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">COPY</button>
+                    <button class="solve-btn" onclick="solveQuestion(this)"
+                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">GOOGLE</button>
+                    <button class="perp-btn" onclick="perplexitySearch(this)"
+                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">
+                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                    <button class="brave-btn" onclick="braveSearch(this)"
+                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">
+                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                </div>
+            </li>
+
+            <!-- •• -->
+            <li>
+                <span class="bullet-badge">••</span>
+                <span class="prob-text">
+                    Exhibit <strong>two different bases</strong> of the subspace $W \subseteq \mathbb{R}^4$
+                    spanned by $\mathbf{w}$, $\mathbf{u}$, and $\mathbf{u} + \mathbf{v}$
+                    (using the vectors chosen in the previous part).
+                    <div class="info-box">
+                        Form the matrix whose rows are $\mathbf{w},\,\mathbf{u},\,\mathbf{u}+\mathbf{v}$
+                        and row-reduce. The non-zero rows give one basis; replace any one basis vector
+                        by a suitable linear combination to produce a second distinct basis.
+                    </div>
+                </span>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyText(this)"
+                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">COPY</button>
+                    <button class="solve-btn" onclick="solveQuestion(this)"
+                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">GOOGLE</button>
+                    <button class="perp-btn" onclick="perplexitySearch(this)"
+                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">
+                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                    <button class="brave-btn" onclick="braveSearch(this)"
+                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">
+                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                </div>
+            </li>
+
+            <!-- ••• -->
+            <li>
+                <span class="bullet-badge">•••</span>
+                <span class="prob-text">
+                    Show a subspace $S$ of the polynomial ring $\mathbb{R}[x]$ that is
+                    <strong>isomorphic</strong> to $U$.
+                    If possible, exhibit two non-null linear maps from $S$ to $U$ that are
+                    <em>not</em> isomorphisms.
+                    <div class="info-box">
+                        Since $\dim U = 2$, any 2-dimensional subspace of $\mathbb{R}[x]$ works,
+                        e.g.\ $S = \langle 1,\, x \rangle$.
+                        A linear map $T: S \to U$ fails to be an isomorphism if it is either not injective
+                        (kernel non-trivial) or not surjective — both are possible for non-zero maps between
+                        spaces of the same finite dimension only when the map is neither injective nor surjective.
+                    </div>
+                </span>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyText(this)"
+                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">COPY</button>
+                    <button class="solve-btn" onclick="solveQuestion(this)"
+                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">GOOGLE</button>
+                    <button class="perp-btn" onclick="perplexitySearch(this)"
+                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">
+                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                    <button class="brave-btn" onclick="braveSearch(this)"
+                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">
+                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                </div>
+            </li>
+
+        </ol>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 1 — LINEAR SYSTEM
+    ════════════════════════════════════════════════════════════ -->
+    <section class="math-section section-anchor" id="sec-linsys">
+        <h2>1 — Parametric Linear System</h2>
+        <p class="section-instruction">
+            For $a \in \mathbb{R}$, define the matrices below and solve the system for all
+            values of $a$ that make it solvable.
+        </p>
+
+        <ol class="prob-list">
+            <li>
+                <span class="prob-num"></span>
+                <span class="prob-text">
+                    Let
+                    $$E = \begin{pmatrix} 1 & -a \\ -a & 4 \end{pmatrix}, \quad
+                      F = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, \quad
+                      G = \begin{pmatrix} 3 \\ 6 \end{pmatrix}.$$
+                    Solve the linear system
+                    $$EF \begin{pmatrix} x \\ y \end{pmatrix} = G$$
+                    for all values of $a$ that make it solvable. (Products are row-by-column.)
+                    <div class="info-box">
+                        Compute $M = EF$ symbolically, then analyse $\det(M)$ to find
+                        the values of $a$ for which the system $M\mathbf{x}=G$ is consistent
+                        (check both $\det(M) \neq 0$ and, when $\det(M)=0$, whether $G \in \operatorname{Im}M$).
+                    </div>
+                </span>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyText(this)"
+                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable. The product is row-by-column.">COPY</button>
+                    <button class="solve-btn" onclick="solveQuestion(this)"
+                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable. The product is row-by-column.">GOOGLE</button>
+                    <button class="perp-btn" onclick="perplexitySearch(this)"
+                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable. The product is row-by-column.">
+                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                    <button class="brave-btn" onclick="braveSearch(this)"
+                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable.">
+                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 2 — VECTOR ORTHOGONAL TO A LINE (2D)
+    ════════════════════════════════════════════════════════════ -->
+    <section class="math-section section-anchor" id="sec-vector2d">
+        <h2>2 — Vector Orthogonal to a Line in the Plane</h2>
+        <p class="section-instruction">
+            Work in the Euclidean plane with Cartesian coordinate system $(O, [\mathbf{i}, \mathbf{j}])$.
+        </p>
+
+        <ol class="prob-list">
+            <li>
+                <span class="prob-num"></span>
+                <span class="prob-text">
+                    Show the components of a vector $\mathbf{v}$ having
+                    <strong>length 3</strong> and
+                    <strong>orthogonal to the line</strong>
+                    $r\!: \; 2x + y - 3 = 0$.
+                    Then determine whether the angle formed by $\mathbf{v}$ and the vector
+                    $\mathbf{w} = 20\,\mathbf{i} - 40\,\mathbf{j}$
+                    is <em>acute</em>.
+                    <div class="info-box">
+                        The normal direction to $ax + by + c = 0$ is $(a, b)$.
+                        Scale $(2, 1)$ to unit length, then multiply by 3.
+                        The angle with $\mathbf{w}$ is acute if and only if $\mathbf{v} \cdot \mathbf{w} > 0$.
+                        There are two possible choices of $\mathbf{v}$ (opposite directions); check both.
+                    </div>
+                </span>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyText(this)"
+                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">COPY</button>
+                    <button class="solve-btn" onclick="solveQuestion(this)"
+                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">GOOGLE</button>
+                    <button class="perp-btn" onclick="perplexitySearch(this)"
+                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">
+                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                    <button class="brave-btn" onclick="braveSearch(this)"
+                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">
+                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 3 — LINES AND PLANE IN 3D
+    ════════════════════════════════════════════════════════════ -->
+    <section class="math-section section-anchor" id="sec-lines3d">
+        <h2>3 — Lines and Plane in Euclidean Space</h2>
+        <p class="section-instruction">
+            Work in Euclidean 3-space with coordinate system $(O, [\mathbf{i}, \mathbf{j}, \mathbf{k}])$.
+        </p>
+
+        <ol class="prob-list">
+            <li>
+                <span class="prob-num"></span>
+                <span class="prob-text">
+                    Let $r$ be the line through $A \equiv (0,2,1)$ parallel to
+                    $\mathbf{v} = \mathbf{i} - 3\mathbf{j} + 2\mathbf{k}$.
+
+                    <br><br>
+                    <strong>(a)</strong> Show the parametric equations of a line $s$ that is
+                    <em>orthogonal to</em> and <em>intersects</em> $r$.
+
+                    <br>
+                    <strong>(b)</strong> If it exists, show the equation of a plane $\pi$ parallel
+                    to both $r$ and $s$ such that $\pi \cap r = \emptyset$.
+
+                    <div class="info-box">
+                        For (a): choose a point $B$ not on $r$; the foot of the perpendicular from
+                        $B$ to $r$ gives the intersection point, and the direction of $s$ is
+                        $B - \text{foot}$. For (b): $\pi$ must be parallel to both direction vectors,
+                        so its normal is $\mathbf{v} \times \mathbf{d}_s$; then choose the offset so
+                        that $r$ does not lie on $\pi$.
+                    </div>
+                </span>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyText(this)"
+                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. (a) Find parametric equations of a line s orthogonal to and intersecting r. (b) If it exists, find the equation of a plane pi parallel to r and s such that pi does not intersect r.">COPY</button>
+                    <button class="solve-btn" onclick="solveQuestion(this)"
+                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. (a) Find parametric equations of a line s orthogonal to and intersecting r. (b) If it exists, find the equation of a plane pi parallel to r and s such that pi does not intersect r.">GOOGLE</button>
+                    <button class="perp-btn" onclick="perplexitySearch(this)"
+                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. (a) Find parametric equations of a line s orthogonal to and intersecting r. (b) Find the equation of a plane pi parallel to r and s with pi ∩ r = empty.">
+                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                    <button class="brave-btn" onclick="braveSearch(this)"
+                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. Find parametric equations of a line s orthogonal to and intersecting r. Find a plane pi parallel to r and s with pi ∩ r = empty.">
+                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 4 — EIGENVALUES AND DIAGONALISATION
+    ════════════════════════════════════════════════════════════ -->
+    <section class="math-section section-anchor" id="sec-eigen">
+        <h2>4 — Eigenspaces and Diagonalisation</h2>
+        <p class="section-instruction">
+            Work with the standard basis of $\mathbb{R}^3$ throughout.
+        </p>
+
+        <ol class="prob-list">
+            <li>
+                <span class="prob-num"></span>
+                <span class="prob-text">
+                    Let $A$ be the matrix representing the linear map
+                    $$f : (x_1, x_2, x_3) \;\longmapsto\; (0,\; 2x_3,\; 2x_2),$$
+                    with respect to the standard basis of $\mathbb{R}^3$.
+
+                    <br><br>
+                    Find a basis of each <strong>eigenspace</strong> of $A$. If it exists,
+                    exhibit a <strong>diagonal matrix similar</strong> to $A$.
+
+                    <div class="info-box">
+                        Write down $A$ from the map definition, compute
+                        $\det(A - \lambda I) = 0$, find eigenvalues, then solve
+                        $(A - \lambda I)\mathbf{x} = \mathbf{0}$ for each eigenvalue.
+                        $A$ is diagonalisable iff the geometric multiplicities sum to 3
+                        (i.e.\ $\mathbb{R}^3$ has a basis of eigenvectors).
+                    </div>
+                </span>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyText(this)"
+                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">COPY</button>
+                    <button class="solve-btn" onclick="solveQuestion(this)"
+                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">GOOGLE</button>
+                    <button class="perp-btn" onclick="perplexitySearch(this)"
+                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">
+                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                    <button class="brave-btn" onclick="braveSearch(this)"
+                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">
+                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-stamp">Linear Algebra · Problem Set · Academic Use Only</p>
+    </footer>
+
+</div><!-- /.page-card -->
+</body>
+</html>
