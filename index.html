@@ -1,838 +1,1701 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Problem Set — Linear Algebra</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true
-            },
-            options: { enableMenu: false }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Algebra · Master Exam Question Deck</title>
 
-    <style>
-        /* ─── CSS Variables ──────────────────────────────── */
-        :root {
-            --bg:        #f4f6fb;
-            --bg-card:   #ffffff;
-            --bg-item:   #f8faff;
-            --bg-item-h: #eef2ff;
-            --border:    #dde3f0;
-            --text:      #1a2540;
-            --text-dim:  #5a6a8a;
-            --accent:    #1d4ed8;
-            --h2-color:  #1e3a8a;
-            --h3-color:  #2563eb;
-            --copy-bg:   #e8effe;
-            --copy-fg:   #1d4ed8;
-            --copy-bdr:  #bfcfff;
-            --solve-bg:  #fef0f0;
-            --solve-fg:  #b91c1c;
-            --solve-bdr: #fecaca;
-            --thm-bg:    #f1f5ff;
-            --thm-bdr:   #c7d6ff;
-            --footer-sep:#dde3f0;
-            --glow:      rgba(59,130,246,0.10);
-            --perp-bg:   #f0fdf9;
-            --perp-fg:   #0d7a5f;
-            --perp-bdr:  #a7f3d0;
-            --brave-bg:  #fff5f0;
-            --brave-fg:  #c2410c;
-            --brave-bdr: #fed7aa;
-            --badge-bg:  #eff6ff;
-            --badge-fg:  #1d4ed8;
-            --badge-bdr: #bfdbfe;
-        }
-        .dark {
-            --bg:        #070b14;
-            --bg-card:   #0d1525;
-            --bg-item:   #111927;
-            --bg-item-h: #162035;
-            --border:    #1c2d48;
-            --text:      #cdd9f0;
-            --text-dim:  #4a6080;
-            --accent:    #4f9fff;
-            --h2-color:  #eab308;
-            --h3-color:  #7eb8ff;
-            --copy-bg:   #0f1f38;
-            --copy-fg:   #7eb8ff;
-            --copy-bdr:  #1e3f6a;
-            --solve-bg:  #1a0e0e;
-            --solve-fg:  #f87171;
-            --solve-bdr: #4a1a1a;
-            --thm-bg:    #0c1626;
-            --thm-bdr:   #1a3055;
-            --footer-sep:#1c2d48;
-            --glow:      rgba(78,158,255,0.08);
-            --perp-bg:   #052e22;
-            --perp-fg:   #34d399;
-            --perp-bdr:  #065f46;
-            --brave-bg:  #2a1200;
-            --brave-fg:  #fb923c;
-            --brave-bdr: #7c2d12;
-            --badge-bg:  #0f1f38;
-            --badge-fg:  #7eb8ff;
-            --badge-bdr: #1e3f6a;
-        }
+  <!-- Google Fonts: Playfair Display (academic title), Source Serif 4 (math & reading), JetBrains Mono (chrome) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
 
-        /* ─── Base ───────────────────────────────────────── */
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+  <!-- MathJax v3 Configuration (SVG output for crisp, publication-grade math typography) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-        body {
-            font-family: 'Source Serif 4', Georgia, serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 1.5rem 1rem;
-            transition: background 0.35s ease, color 0.35s ease;
-            line-height: 1.7;
-        }
+  <style>
+    /* ==========================================================================
+       1. COLOR SYSTEM & CSS VARIABLES (Jewel-Tone Academic Palette)
+       ========================================================================== */
+    :root.dark {
+      /* Base surfaces */
+      --bg:           #080b10;   /* page background — obsidian ink */
+      --bg-card:      #0f141f;   /* main deck surface */
+      --bg-subtle:    #131926;   /* inner card surface */
+      --bg-item:      #151c2b;   /* question card background */
+      --bg-item-h:    #1a2336;   /* question card hover */
+      --bg-bar:       rgba(15, 20, 31, 0.88);
+      --border:       #212b3e;
+      --border-strong:#2d3a54;
+      --border-subtle:#182030;
 
-        /* ─── Page wrapper ───────────────────────────────── */
-        .page-card {
-            max-width: 880px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem 2.5rem 3rem;
-            box-shadow: 0 0 0 1px var(--border), 0 24px 80px rgba(0,0,0,0.35);
-            transition: background 0.35s ease, border-color 0.35s ease;
-        }
-        @media (max-width: 640px) {
-            .page-card { padding: 1.25rem 1.1rem 2rem; border-radius: 14px; }
-        }
+      /* Text */
+      --text:         #e6ebf5;
+      --text-muted:   #94a1b8;
+      --text-dim:     #68758e;
 
-        /* ─── Top bar ────────────────────────────────────── */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2.5rem;
-        }
-        .byline {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            color: var(--text-dim);
-            letter-spacing: 0.08em;
-        }
-        .toggle-btn {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 6px 14px;
-            border-radius: 99px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-dim);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .toggle-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--glow);
-        }
+      /* Accent & highlights */
+      --accent:       #5e8df0;   /* soft indigo-blue */
+      --accent-glow:  rgba(94, 141, 240, 0.15);
+      --accent-ring:  rgba(94, 141, 240, 0.40);
+      --highlight-bg: rgba(94, 141, 240, 0.12);
 
-        /* ─── Hero header ────────────────────────────────── */
-        .hero {
-            text-align: center;
-            padding: 1rem 0 3.5rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 3rem;
-        }
-        .hero-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.35em;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            margin-bottom: 1.1rem;
-        }
-        h1 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(2.2rem, 6vw, 3.6rem);
-            font-weight: 900;
-            color: var(--h2-color);
-            margin: 0 0 0.6rem;
-            letter-spacing: -0.01em;
-            line-height: 1.1;
-        }
-        .dark h1 {
-            background: linear-gradient(135deg, #f0c060 0%, #fadb82 50%, #e8a820 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-sub {
-            font-size: 0.8rem;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            font-family: 'JetBrains Mono', monospace;
-        }
+      /* Headings — academic muted champagne/brass gradient */
+      --h-grad-1:     #d9b169;
+      --h-grad-2:     #f0d99a;
+      --h-grad-3:     #b6863c;
+      --h2-color:     #e3c17e;
+      --h3-color:     #edd5a6;
 
-        /* ─── Sections ───────────────────────────────────── */
-        .math-section {
-            margin-bottom: 3.5rem;
-            animation: fadeUp 0.4s ease both;
-        }
-        .math-section:nth-child(1) { animation-delay: 0.05s; }
-        .math-section:nth-child(2) { animation-delay: 0.10s; }
-        .math-section:nth-child(3) { animation-delay: 0.15s; }
-        .math-section:nth-child(4) { animation-delay: 0.20s; }
-        .math-section:nth-child(5) { animation-delay: 0.25s; }
-        .math-section:nth-child(6) { animation-delay: 0.30s; }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+      /* Jewel Button Quad */
+      /* COPY — Indigo */
+      --copy-bg:      #131a2c;
+      --copy-fg:      #8fb0f7;
+      --copy-bdr:     #24365c;
+      --copy-hover:   #5e8df0;
 
-        h2 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.55rem;
-            font-weight: 700;
-            color: var(--h2-color);
-            margin: 0 0 1.5rem;
-            padding: 0.6rem 0 0.6rem 1.1rem;
-            border-left: 3px solid var(--h2-color);
-            background: linear-gradient(to right, var(--glow), transparent);
-            border-radius: 0 6px 6px 0;
-        }
+      /* GOOGLE — Copper / Amber */
+      --solve-bg:     #241a0f;
+      --solve-fg:     #e3a75e;
+      --solve-bdr:    #4a3016;
+      --solve-hover:  #c9822e;
 
-        h3 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--h3-color);
-            margin: 2rem 0 0.85rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border);
-        }
+      /* ASK (Perplexity) — Emerald / Teal */
+      --perp-bg:      #0d201c;
+      --perp-fg:      #52d1b4;
+      --perp-bdr:     #164539;
+      --perp-hover:   #14b892;
 
-        .section-instruction {
-            font-style: italic;
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            margin-bottom: 1.2rem;
-            padding-left: 0.25rem;
-        }
+      /* BRAVE — Rose / Plum */
+      --brave-bg:     #221327;
+      --brave-fg:     #d992d1;
+      --brave-bdr:    #3f1f45;
+      --brave-hover:  #b354a8;
 
-        /* ─── Problem list ───────────────────────────────── */
-        ol.prob-list {
-            list-style: none;
-            counter-reset: prob;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
+      /* Code block surface */
+      --code-bg:      #0c1018;
+      --code-bdr:     #1c2538;
+      --code-fg:      #9db2d8;
+    }
 
-        ol.prob-list > li {
-            counter-increment: prob;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            background: var(--bg-item);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 0.85rem 0.85rem;
-            transition: background 0.18s, border-color 0.18s;
-        }
-        ol.prob-list > li:hover {
-            background: var(--bg-item-h);
-            border-color: var(--accent);
-        }
+    :root.light {
+      /* Base surfaces */
+      --bg:           #f3f5f9;
+      --bg-card:      #ffffff;
+      --bg-subtle:    #f8f9fc;
+      --bg-item:      #f5f7fb;
+      --bg-item-h:    #ebf0fa;
+      --bg-bar:       rgba(255, 255, 255, 0.92);
+      --border:       #d8e0ed;
+      --border-strong:#c2cde0;
+      --border-subtle:#e5eaf3;
 
-        /* Bullet-style list (•, ••, •••) */
-        ol.bullet-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        ol.bullet-list > li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            background: var(--bg-item);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 0.85rem 0.85rem;
-            transition: background 0.18s, border-color 0.18s;
-        }
-        ol.bullet-list > li:hover {
-            background: var(--bg-item-h);
-            border-color: var(--accent);
-        }
+      /* Text */
+      --text:         #1a2233;
+      --text-muted:   #4e5c74;
+      --text-dim:     #7c8ba3;
 
-        .prob-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            font-weight: 700;
-            color: var(--text-dim);
-            min-width: 1.4rem;
-            padding-top: 0.2rem;
-            flex-shrink: 0;
-        }
-        ol.prob-list .prob-num::before { content: counter(prob) "."; }
+      /* Accent */
+      --accent:       #3766d4;
+      --accent-glow:  rgba(55, 102, 212, 0.12);
+      --accent-ring:  rgba(55, 102, 212, 0.35);
+      --highlight-bg: rgba(55, 102, 212, 0.08);
 
-        /* Bullet badges: •, ••, ••• */
-        .bullet-badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            background: var(--badge-bg);
-            color: var(--badge-fg);
-            border: 1px solid var(--badge-bdr);
-            border-radius: 6px;
-            padding: 2px 7px;
-            flex-shrink: 0;
-            align-self: flex-start;
-            margin-top: 0.12rem;
-        }
+      /* Headings */
+      --h-grad-1:     #8f6219;
+      --h-grad-2:     #b6832a;
+      --h-grad-3:     #734b0d;
+      --h2-color:     #7e581b;
+      --h3-color:     #5e4010;
 
-        .prob-text {
-            flex: 1;
-            display: block;
-            line-height: 1.7;
-            font-size: 0.97rem;
-            min-width: 0;
-        }
+      /* Button quad */
+      --copy-bg:      #eef3ff;
+      --copy-fg:      #2b54bc;
+      --copy-bdr:     #c7d7fb;
+      --copy-hover:   #3f6fe0;
 
-        /* ─── Button group ───────────────────────────────── */
-        .btn-group {
-            display: flex;
-            gap: 0.4rem;
-            flex-shrink: 0;
-            align-items: flex-start;
-            padding-top: 0.1rem;
-        }
+      --solve-bg:     #fef5e7;
+      --solve-fg:     #9a5b12;
+      --solve-bdr:    #f3d7aa;
+      --solve-hover:  #c9822e;
 
-        @media (max-width: 640px) {
-            ol.prob-list > li,
-            ol.bullet-list > li {
-                flex-wrap: wrap;
-            }
-            .btn-group {
-                flex-wrap: wrap;
-                width: 100%;
-            }
-        }
+      --perp-bg:      #e6faf5;
+      --perp-fg:      #07785f;
+      --perp-bdr:     #aee3d6;
+      --perp-hover:   #14b892;
 
-        .copy-btn, .solve-btn {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            padding: 5px 10px;
-            border-radius: 6px;
-            border: 1px solid;
-            cursor: pointer;
-            transition: all 0.18s;
-            white-space: nowrap;
-            height: 28px;
-            display: flex;
-            align-items: center;
-        }
+      --brave-bg:     #fbeeec;
+      --brave-fg:     #962e78;
+      --brave-bdr:    #eec7e5;
+      --brave-hover:  #b354a8;
 
-        .copy-btn {
-            background: var(--copy-bg);
-            color: var(--copy-fg);
-            border-color: var(--copy-bdr);
-        }
-        .copy-btn:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(79,159,255,0.3);
-        }
+      --code-bg:      #f0f3f9;
+      --code-bdr:     #d5deed;
+      --code-fg:      #273752;
+    }
 
-        .solve-btn {
-            background: var(--solve-bg);
-            color: var(--solve-fg);
-            border-color: var(--solve-bdr);
-        }
-        .solve-btn:hover {
-            background: #dc2626;
-            color: #fff;
-            border-color: #dc2626;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(220,38,38,0.3);
-        }
+    /* ==========================================================================
+       2. BASE & TYPOGRAPHY
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
-        .perp-btn {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            padding: 5px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--perp-bdr);
-            background: var(--perp-bg);
-            color: var(--perp-fg);
-            cursor: pointer;
-            transition: all 0.18s;
-            white-space: nowrap;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .perp-btn:hover {
-            background: #10b981;
-            color: #fff;
-            border-color: #10b981;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(16,185,129,0.35);
-        }
-        .perp-btn .perp-icon {
-            width: 11px; height: 11px; flex-shrink: 0; fill: currentColor;
-        }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
 
-        .brave-btn {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            padding: 5px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--brave-bdr);
-            background: var(--brave-bg);
-            color: var(--brave-fg);
-            cursor: pointer;
-            transition: all 0.18s;
-            white-space: nowrap;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .brave-btn:hover {
-            background: #ea580c;
-            color: #fff;
-            border-color: #ea580c;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(234,88,12,0.35);
-        }
-        .brave-btn .brave-icon {
-            width: 11px; height: 11px; flex-shrink: 0; fill: currentColor;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at 15% 0%, var(--accent-glow), transparent 36%), var(--bg);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.0625rem;
+      line-height: 1.68;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        /* ─── Info box (sub-note inside a problem) ───────── */
-        .info-box {
-            font-size: 0.82rem;
-            color: var(--text-dim);
-            font-style: italic;
-            margin-top: 0.55rem;
-            padding: 0.45rem 0.7rem;
-            background: var(--thm-bg);
-            border-left: 2px solid var(--thm-bdr);
-            border-radius: 0 6px 6px 0;
-        }
+    ::selection {
+      background: var(--accent);
+      color: #ffffff;
+    }
 
-        /* ─── Footer ─────────────────────────────────────── */
-        footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--footer-sep);
-        }
-        .footer-stamp {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            text-align: center;
-            margin-top: 2.5rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-        }
+    /* ==========================================================================
+       3. LAYOUT & SHELL
+       ========================================================================== */
+    .page-container {
+      max-width: 960px;
+      margin: 32px auto;
+      padding: 0 16px 64px;
+    }
 
-        /* ─── MathJax sizing ─────────────────────────────── */
-        mjx-container { font-size: 1em !important; }
+    .deck-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
 
-        .section-anchor { scroll-margin-top: 80px; }
-    </style>
+    /* ==========================================================================
+       4. TOP UTILITY BAR
+       ========================================================================== */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 24px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      flex-wrap: wrap;
+    }
 
-    <script>
-        /* ── Dark / Light toggle ── */
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            const btn = document.getElementById('modeBtn');
-            btn.textContent = document.documentElement.classList.contains('dark')
-                ? '☀ LIGHT MODE' : '🌙 DARK MODE';
-        }
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        /* ── COPY button ── */
-        function copyText(button) {
-            const textToCopy = button.getAttribute('data-content');
-            navigator.clipboard?.writeText(textToCopy).catch(() => {
-                const ta = document.createElement('textarea');
-                ta.value = textToCopy;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-            });
-            const orig = button.innerText;
-            button.innerText = '✓ DONE';
-            button.style.background = '#16a34a';
-            button.style.color = '#fff';
-            button.style.borderColor = '#16a34a';
-            setTimeout(() => {
-                button.innerText = orig;
-                button.style.background = '';
-                button.style.color = '';
-                button.style.borderColor = '';
-            }, 1500);
-        }
+    .brand-badge {
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
 
-        /* ── GOOGLE button ── */
-        function solveQuestion(button) {
-            const query = button.getAttribute('data-content');
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}&udm=50`, '_blank');
-        }
+    .brand-badge svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
 
-        /* ── ASK (Perplexity) button ── */
-        function perplexitySearch(button) {
-            const raw = button.getAttribute('data-content');
-            const txt = document.createElement('textarea');
-            txt.innerHTML = raw;
-            const query = txt.value;
-            window.open('https://www.perplexity.ai/search?q=' + encodeURIComponent(query), '_blank');
-        }
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-        /* ── BRAVE button ── */
-        function braveSearch(button) {
-            const raw = button.getAttribute('data-content');
-            const txt = document.createElement('textarea');
-            txt.innerHTML = raw;
-            const query = txt.value;
-            window.open('https://search.brave.com/ask?q=' + encodeURIComponent(query), '_blank');
-        }
-    </script>
+    .btn-ui {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      padding: 6px 13px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      user-select: none;
+    }
+
+    .btn-ui:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--highlight-bg);
+      transform: translateY(-1px);
+    }
+
+    .btn-ui:focus-visible, .btn-action:focus-visible, a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ==========================================================================
+       5. HERO SECTION
+       ========================================================================== */
+    .hero {
+      padding: 44px 34px 28px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
+    }
+
+    .hero-eyebrow .chip {
+      background: var(--highlight-bg);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(94, 141, 240, 0.25);
+    }
+
+    .hero h1 {
+      margin: 8px 0 14px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      background: linear-gradient(110deg, var(--h-grad-1) 0%, var(--h-grad-2) 50%, var(--h-grad-3) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      max-width: 720px;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin: 0 0 20px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--text-dim);
+    }
+
+    .hero-stats span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-stats strong {
+      color: var(--text);
+    }
+
+    /* ==========================================================================
+       6. DUAL CONTROL BAR: SORTING & THREE-FORMAT SELECTION
+       ========================================================================== */
+    .control-deck {
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .control-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-right: 2px;
+    }
+
+    .segmented-control {
+      display: inline-flex;
+      background: var(--bg-item);
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .seg-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      user-select: none;
+    }
+
+    .seg-btn:hover {
+      color: var(--text);
+    }
+
+    .seg-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(94, 141, 240, 0.35);
+    }
+
+    /* ==========================================================================
+       7. SMART NAVIGATION BAR (Quick Paper/Category Chips)
+       ========================================================================== */
+    .smart-nav-bar {
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+      overflow-x: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      scrollbar-width: thin;
+    }
+
+    .smart-nav-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .smart-nav-bar::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 4px;
+    }
+
+    .nav-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.71rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-chip:hover {
+      background: var(--bg-item-h);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .nav-chip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--highlight-bg);
+    }
+
+    /* ==========================================================================
+       8. SECTIONS (Paper or Category view)
+       ========================================================================== */
+    .deck-content {
+      padding: 8px 24px 36px;
+    }
+
+    .topic-section {
+      padding: 36px 0 20px;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 75px;
+    }
+
+    .topic-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-header {
+      margin-bottom: 20px;
+    }
+
+    .section-meta-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .section-meta-line .badge {
+      background: var(--bg-item);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-anchor-link {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .section-anchor-link:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .section-header h2 {
+      margin: 4px 0 10px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--h2-color);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .section-instruction {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      font-style: italic;
+      line-height: 1.55;
+    }
+
+    /* ==========================================================================
+       9. QUESTION CARDS & NUMBERING (CSS Counters)
+       ========================================================================== */
+    .prob-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: question-counter;
+    }
+
+    .prob-item {
+      counter-increment: question-counter;
+      background: var(--bg-item);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px 24px;
+      margin: 14px 0;
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      transition: all 0.22s cubic-bezier(0.2, 0, 0, 1);
+      scroll-margin-top: 85px;
+      position: relative;
+    }
+
+    .prob-item:hover {
+      background: var(--bg-item-h);
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+    }
+
+    .prob-item:target, .prob-item.anchor-highlight {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-ring), 0 12px 36px rgba(94, 141, 240, 0.2);
+      animation: highlightGlow 2.4s ease-out;
+    }
+
+    @keyframes highlightGlow {
+      0% {
+        background-color: var(--highlight-bg);
+        border-color: var(--accent);
+      }
+      100% {
+        background-color: var(--bg-item);
+        border-color: var(--border-strong);
+      }
+    }
+
+    .prob-num-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 2px;
+    }
+
+    .prob-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .prob-num::after {
+      content: counter(question-counter, decimal-leading-zero);
+    }
+
+    .prob-anchor {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      margin-top: 6px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+
+    .prob-anchor:hover {
+      color: var(--accent);
+      background: var(--highlight-bg);
+    }
+
+    .prob-content {
+      min-width: 0;
+    }
+
+    .prob-header-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .prob-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .prob-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .prob-tag.category {
+      color: var(--accent);
+      border-color: rgba(94, 141, 240, 0.25);
+      background: var(--highlight-bg);
+    }
+
+    .prob-view-switcher {
+      display: inline-flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px;
+      gap: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+    }
+
+    .pv-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+
+    .pv-btn:hover {
+      color: var(--text);
+    }
+
+    .pv-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .prob-text {
+      font-size: 1.05rem;
+      line-height: 1.68;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .prob-text p {
+      margin: 0 0 10px;
+    }
+
+    .prob-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .display-math {
+      margin: 14px 0;
+      text-align: center;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    .sub-list {
+      margin: 10px 0 12px 22px;
+      padding: 0;
+      list-style-type: decimal;
+    }
+
+    .sub-list li {
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .bullet-list {
+      margin: 10px 0 12px 22px;
+      padding: 0;
+      list-style-type: disc;
+    }
+
+    .bullet-list li {
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .view-latex, .view-plain {
+      display: none;
+      background: var(--code-bg);
+      border: 1px solid var(--code-bdr);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--code-fg);
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-x: auto;
+      margin-bottom: 18px;
+    }
+
+    .prob-item[data-view="latex"] .view-human { display: none; }
+    .prob-item[data-view="latex"] .view-latex { display: block; }
+    .prob-item[data-view="latex"] .view-plain { display: none; }
+
+    .prob-item[data-view="plain"] .view-human { display: none; }
+    .prob-item[data-view="plain"] .view-latex { display: none; }
+    .prob-item[data-view="plain"] .view-plain { display: block; }
+
+    /* ==========================================================================
+       10. ACTION BUTTON QUAD (COPY, GOOGLE, ASK, BRAVE)
+       ========================================================================== */
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      border-radius: 999px;
+      padding: 7px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      user-select: none;
+    }
+
+    .btn-action svg {
+      width: 13px;
+      height: 13px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* COPY button (Indigo) */
+    .copy-btn {
+      background: var(--copy-bg);
+      color: var(--copy-fg);
+      border-color: var(--copy-bdr);
+    }
+    .copy-btn:hover {
+      background: var(--copy-hover);
+      color: #ffffff;
+      border-color: var(--copy-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(94, 141, 240, 0.35);
+    }
+
+    /* GOOGLE / SOLVE button (Copper/Amber) */
+    .solve-btn {
+      background: var(--solve-bg);
+      color: var(--solve-fg);
+      border-color: var(--solve-bdr);
+    }
+    .solve-btn:hover {
+      background: var(--solve-hover);
+      color: #ffffff;
+      border-color: var(--solve-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(201, 130, 46, 0.35);
+    }
+
+    /* ASK / Perplexity button (Teal/Emerald) */
+    .perp-btn {
+      background: var(--perp-bg);
+      color: var(--perp-fg);
+      border-color: var(--perp-bdr);
+    }
+    .perp-btn:hover {
+      background: var(--perp-hover);
+      color: #ffffff;
+      border-color: var(--perp-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(20, 184, 146, 0.35);
+    }
+
+    /* BRAVE button (Rose/Plum) */
+    .brave-btn {
+      background: var(--brave-bg);
+      color: var(--brave-fg);
+      border-color: var(--brave-bdr);
+    }
+    .brave-btn:hover {
+      background: var(--brave-hover);
+      color: #ffffff;
+      border-color: var(--brave-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(179, 84, 168, 0.35);
+    }
+
+    .btn-format-badge {
+      font-size: 0.60rem;
+      opacity: 0.75;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1px 5px;
+      border-radius: 4px;
+      margin-left: 2px;
+    }
+
+    /* ==========================================================================
+       11. SMART NAVIGATION DRAWER & OVERLAY
+       ========================================================================== */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(4, 7, 12, 0.7);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 380px;
+      max-width: 90vw;
+      height: 100vh;
+      background: var(--bg-card);
+      border-left: 1px solid var(--border-strong);
+      z-index: 101;
+      box-shadow: -15px 0 50px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .nav-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-subtle);
+    }
+
+    .drawer-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drawer-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.18s;
+    }
+
+    .drawer-close:hover {
+      color: var(--text);
+      border-color: var(--text-dim);
+    }
+
+    .drawer-search-wrap {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drawer-search {
+      width: 100%;
+      background: var(--bg-item);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.80rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .drawer-search:focus {
+      border-color: var(--accent);
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+    }
+
+    .drawer-section-title {
+      font-size: 0.70rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin: 16px 0 8px;
+    }
+
+    .drawer-section-title:first-child {
+      margin-top: 0;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.15s;
+      margin-bottom: 4px;
+      background: var(--bg-subtle);
+      border: 1px solid transparent;
+    }
+
+    .drawer-item:hover {
+      background: var(--bg-item-h);
+      border-color: var(--border-strong);
+      color: var(--text);
+      transform: translateX(3px);
+    }
+
+    .drawer-item.active {
+      background: var(--highlight-bg);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .drawer-badge {
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+
+    /* ==========================================================================
+       12. FOOTER
+       ========================================================================== */
+    .deck-footer {
+      padding: 28px 34px;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* ==========================================================================
+       13. RESPONSIVE BREAKPOINT (640px)
+       ========================================================================== */
+    @media (max-width: 640px) {
+      .page-container {
+        margin: 0;
+        padding: 0;
+      }
+      .deck-card {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+      .hero {
+        padding: 30px 20px 22px;
+      }
+      .top-bar, .control-deck {
+        padding: 12px 18px;
+      }
+      .deck-content {
+        padding: 6px 16px 28px;
+      }
+      .prob-item {
+        grid-template-columns: 36px 1fr;
+        gap: 10px;
+        padding: 16px 14px;
+        border-radius: 14px;
+      }
+      .prob-num {
+        width: 32px;
+        height: 32px;
+        font-size: 0.80rem;
+      }
+      .prob-text {
+        font-size: 0.98rem;
+      }
+      .btn-action {
+        font-size: 0.66rem;
+        padding: 6px 10px;
+      }
+      .btn-group {
+        gap: 6px;
+      }
+      .nav-drawer {
+        width: 100%;
+        max-width: 100vw;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<div class="page-card">
 
-    <!-- Top bar -->
+<div class="page-container">
+  <main class="deck-card">
+
+    <!-- Top Utility Bar -->
     <div class="top-bar">
-        <span class="byline">Created by Md Sakibul Hasan</span>
-        <button id="modeBtn" onclick="toggleDarkMode()" class="toggle-btn">&#9728; LIGHT MODE</button>
+      <div class="top-left">
+        <span class="brand-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Linear Algebra Archive
+        </span>
+      </div>
+      <div class="top-controls">
+        <button class="btn-ui" onclick="toggleNavDrawer()" aria-label="Open Navigation Index Drawer">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+          INDEX (#ID)
+        </button>
+        <button class="btn-ui theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Light and Dark Mode">
+          <span class="theme-icon">☾</span> THEME
+        </button>
+      </div>
     </div>
 
-    <!-- Hero -->
+    <!-- Hero Header -->
     <header class="hero">
-        <p class="hero-eyebrow">Academic Problem Set</p>
-        <h1>Linear Algebra</h1>
-        <p class="hero-sub">Subspaces · Linear Systems · Geometry · Eigenvalues</p>
+      <div class="hero-eyebrow">
+        <span>University Exam Collection</span>
+        <span class="chip">37 Questions</span>
+        <span class="chip">7 Papers</span>
+      </div>
+      <h1>Linear Algebra<br>Study Deck</h1>
+      <p class="hero-desc">
+        Complete past exam questions typeset in publication-quality mathematical notation. Search or copy with your choice of LaTeX, Plain Text, or Human-Readable formulas, with full anchor deep-linking (#id).
+      </p>
+      <div class="hero-stats">
+        <span>📅 <strong>7 Exam Sessions</strong> (April 2025 – July 2026)</span>
+        <span>🏷️ <strong>6 Topic Categories</strong></span>
+        <span>✨ <strong>Verbatim Questions Preserved</strong></span>
+      </div>
     </header>
 
-    <!-- ══════════════════════════════════════════════════════════
-         SECTION 0 — BULLET PROBLEMS (•, ••, •••)
-    ════════════════════════════════════════════════════════════ -->
-    <section class="math-section section-anchor" id="sec-bullets">
-        <h2>Preliminary Bullet Problems</h2>
-        <p class="section-instruction">
-            Fix three non-null vectors in $\mathbb{R}^4$, study a subspace
-            $W$, and build a polynomial subspace isomorphic to $U$.
-        </p>
+    <!-- Controls Deck (Sort Mode + Three-Format Switcher) -->
+    <div class="control-deck">
+      <!-- Sort Mode Selection -->
+      <div class="control-group">
+        <span class="control-label">Sort By:</span>
+        <div class="segmented-control" role="tablist" aria-label="Sort Order">
+          <button class="seg-btn active" data-sort="paper" onclick="setSortMode('paper')">
+            📅 Question Paper
+          </button>
+          <button class="seg-btn" data-sort="category" onclick="setSortMode('category')">
+            🏷️ Type / Category
+          </button>
+        </div>
+      </div>
 
-        <ol class="bullet-list">
+      <!-- Three-Format Switcher (LaTeX default for buttons, Plain Text, Human-Readable) -->
+      <div class="control-group">
+        <span class="control-label">Format:</span>
+        <div class="segmented-control" role="tablist" aria-label="Button & Math Format">
+          <button class="seg-btn active" data-format="latex" onclick="setGlobalFormat('latex')">
+            𝛌 LaTeX (Default)
+          </button>
+          <button class="seg-btn" data-format="plain" onclick="setGlobalFormat('plain')">
+            📄 Plain Text
+          </button>
+          <button class="seg-btn" data-format="human" onclick="setGlobalFormat('human')">
+            📖 Human-Readable
+          </button>
+        </div>
+      </div>
+    </div>
 
-            <!-- • -->
-            <li>
-                <span class="bullet-badge">•</span>
-                <span class="prob-text">
-                    Fix three non-null vectors $\mathbf{u}, \mathbf{v}, \mathbf{w} \in \mathbb{R}^4$ such that
-                    <strong>only $\mathbf{u}$</strong> belongs to the subspace
-                    $U = \langle\, (4,3,2,1),\; (-1,0,0,0) \,\rangle$.
-                    Explain why the chosen $\mathbf{v}$ and $\mathbf{w}$ do <em>not</em> belong to $U$.
-                    <div class="info-box">
-                        A vector $\mathbf{x} \in \mathbb{R}^4$ belongs to $U$ if and only if it can be written as
-                        $\alpha\,(4,3,2,1) + \beta\,(-1,0,0,0)$ for some $\alpha,\beta \in \mathbb{R}$.
-                        Equivalently, the last three coordinates of $\mathbf{x}$ must satisfy the ratios imposed
-                        by the generator $(4,3,2,1)$: since $(-1,0,0,0)$ only affects the first coordinate,
-                        any $\mathbf{x} \in U$ must have $x_2 : x_3 : x_4 = 3\alpha : 2\alpha : \alpha$,
-                        i.e.\ $x_4 \neq 0 \Rightarrow x_2 = 3x_4$ and $x_3 = 2x_4$.
-                    </div>
-                </span>
-                <div class="btn-group">
-                    <button class="copy-btn" onclick="copyText(this)"
-                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">COPY</button>
-                    <button class="solve-btn" onclick="solveQuestion(this)"
-                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">GOOGLE</button>
-                    <button class="perp-btn" onclick="perplexitySearch(this)"
-                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">
-                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                    <button class="brave-btn" onclick="braveSearch(this)"
-                        data-content="Fix three non-null vectors u, v, w in R^4 such that only u belongs to the subspace U = span{(4,3,2,1), (-1,0,0,0)}. Explain why the chosen v and w do not belong to U.">
-                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                </div>
-            </li>
+    <!-- Smart Navigation Quick-Chips Bar -->
+    <nav class="smart-nav-bar" id="smartNavPills" aria-label="Quick Section Navigation">
+      <!-- Dynamically filled by JavaScript based on current sort mode -->
+    </nav>
 
-            <!-- •• -->
-            <li>
-                <span class="bullet-badge">••</span>
-                <span class="prob-text">
-                    Exhibit <strong>two different bases</strong> of the subspace $W \subseteq \mathbb{R}^4$
-                    spanned by $\mathbf{w}$, $\mathbf{u}$, and $\mathbf{u} + \mathbf{v}$
-                    (using the vectors chosen in the previous part).
-                    <div class="info-box">
-                        Form the matrix whose rows are $\mathbf{w},\,\mathbf{u},\,\mathbf{u}+\mathbf{v}$
-                        and row-reduce. The non-zero rows give one basis; replace any one basis vector
-                        by a suitable linear combination to produce a second distinct basis.
-                    </div>
-                </span>
-                <div class="btn-group">
-                    <button class="copy-btn" onclick="copyText(this)"
-                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">COPY</button>
-                    <button class="solve-btn" onclick="solveQuestion(this)"
-                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">GOOGLE</button>
-                    <button class="perp-btn" onclick="perplexitySearch(this)"
-                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">
-                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                    <button class="brave-btn" onclick="braveSearch(this)"
-                        data-content="Given non-null vectors u, v, w in R^4 (with u in U = span{(4,3,2,1),(-1,0,0,0)}, v and w not in U), exhibit two different bases of the subspace W of R^4 spanned by w, u, and u+v.">
-                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                </div>
-            </li>
-
-            <!-- ••• -->
-            <li>
-                <span class="bullet-badge">•••</span>
-                <span class="prob-text">
-                    Show a subspace $S$ of the polynomial ring $\mathbb{R}[x]$ that is
-                    <strong>isomorphic</strong> to $U$.
-                    If possible, exhibit two non-null linear maps from $S$ to $U$ that are
-                    <em>not</em> isomorphisms.
-                    <div class="info-box">
-                        Since $\dim U = 2$, any 2-dimensional subspace of $\mathbb{R}[x]$ works,
-                        e.g.\ $S = \langle 1,\, x \rangle$.
-                        A linear map $T: S \to U$ fails to be an isomorphism if it is either not injective
-                        (kernel non-trivial) or not surjective — both are possible for non-zero maps between
-                        spaces of the same finite dimension only when the map is neither injective nor surjective.
-                    </div>
-                </span>
-                <div class="btn-group">
-                    <button class="copy-btn" onclick="copyText(this)"
-                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">COPY</button>
-                    <button class="solve-btn" onclick="solveQuestion(this)"
-                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">GOOGLE</button>
-                    <button class="perp-btn" onclick="perplexitySearch(this)"
-                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">
-                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                    <button class="brave-btn" onclick="braveSearch(this)"
-                        data-content="Show a subspace S of the polynomial ring R[x] isomorphic to U = span{(4,3,2,1),(-1,0,0,0)} in R^4. If possible, exhibit two non-null linear maps from S to U that are not isomorphisms.">
-                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                </div>
-            </li>
-
-        </ol>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════════════
-         SECTION 1 — LINEAR SYSTEM
-    ════════════════════════════════════════════════════════════ -->
-    <section class="math-section section-anchor" id="sec-linsys">
-        <h2>1 — Parametric Linear System</h2>
-        <p class="section-instruction">
-            For $a \in \mathbb{R}$, define the matrices below and solve the system for all
-            values of $a$ that make it solvable.
-        </p>
-
-        <ol class="prob-list">
-            <li>
-                <span class="prob-num"></span>
-                <span class="prob-text">
-                    Let
-                    $$E = \begin{pmatrix} 1 & -a \\ -a & 4 \end{pmatrix}, \quad
-                      F = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, \quad
-                      G = \begin{pmatrix} 3 \\ 6 \end{pmatrix}.$$
-                    Solve the linear system
-                    $$EF \begin{pmatrix} x \\ y \end{pmatrix} = G$$
-                    for all values of $a$ that make it solvable. (Products are row-by-column.)
-                    <div class="info-box">
-                        Compute $M = EF$ symbolically, then analyse $\det(M)$ to find
-                        the values of $a$ for which the system $M\mathbf{x}=G$ is consistent
-                        (check both $\det(M) \neq 0$ and, when $\det(M)=0$, whether $G \in \operatorname{Im}M$).
-                    </div>
-                </span>
-                <div class="btn-group">
-                    <button class="copy-btn" onclick="copyText(this)"
-                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable. The product is row-by-column.">COPY</button>
-                    <button class="solve-btn" onclick="solveQuestion(this)"
-                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable. The product is row-by-column.">GOOGLE</button>
-                    <button class="perp-btn" onclick="perplexitySearch(this)"
-                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable. The product is row-by-column.">
-                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                    <button class="brave-btn" onclick="braveSearch(this)"
-                        data-content="For a in R, let E = [[1,-a],[-a,4]], F = [[1,2],[3,4]], G = [3,6]. Solve the linear system EF[x,y]^T = G for all values of a that make it solvable.">
-                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                </div>
-            </li>
-        </ol>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════════════
-         SECTION 2 — VECTOR ORTHOGONAL TO A LINE (2D)
-    ════════════════════════════════════════════════════════════ -->
-    <section class="math-section section-anchor" id="sec-vector2d">
-        <h2>2 — Vector Orthogonal to a Line in the Plane</h2>
-        <p class="section-instruction">
-            Work in the Euclidean plane with Cartesian coordinate system $(O, [\mathbf{i}, \mathbf{j}])$.
-        </p>
-
-        <ol class="prob-list">
-            <li>
-                <span class="prob-num"></span>
-                <span class="prob-text">
-                    Show the components of a vector $\mathbf{v}$ having
-                    <strong>length 3</strong> and
-                    <strong>orthogonal to the line</strong>
-                    $r\!: \; 2x + y - 3 = 0$.
-                    Then determine whether the angle formed by $\mathbf{v}$ and the vector
-                    $\mathbf{w} = 20\,\mathbf{i} - 40\,\mathbf{j}$
-                    is <em>acute</em>.
-                    <div class="info-box">
-                        The normal direction to $ax + by + c = 0$ is $(a, b)$.
-                        Scale $(2, 1)$ to unit length, then multiply by 3.
-                        The angle with $\mathbf{w}$ is acute if and only if $\mathbf{v} \cdot \mathbf{w} > 0$.
-                        There are two possible choices of $\mathbf{v}$ (opposite directions); check both.
-                    </div>
-                </span>
-                <div class="btn-group">
-                    <button class="copy-btn" onclick="copyText(this)"
-                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">COPY</button>
-                    <button class="solve-btn" onclick="solveQuestion(this)"
-                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">GOOGLE</button>
-                    <button class="perp-btn" onclick="perplexitySearch(this)"
-                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">
-                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                    <button class="brave-btn" onclick="braveSearch(this)"
-                        data-content="In the Euclidean plane with Cartesian system (O,[i,j]), find the components of a vector v with length 3 and orthogonal to the line r: 2x+y-3=0. Say whether the angle formed by v and w = 20i - 40j is acute.">
-                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                </div>
-            </li>
-        </ol>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════════════
-         SECTION 3 — LINES AND PLANE IN 3D
-    ════════════════════════════════════════════════════════════ -->
-    <section class="math-section section-anchor" id="sec-lines3d">
-        <h2>3 — Lines and Plane in Euclidean Space</h2>
-        <p class="section-instruction">
-            Work in Euclidean 3-space with coordinate system $(O, [\mathbf{i}, \mathbf{j}, \mathbf{k}])$.
-        </p>
-
-        <ol class="prob-list">
-            <li>
-                <span class="prob-num"></span>
-                <span class="prob-text">
-                    Let $r$ be the line through $A \equiv (0,2,1)$ parallel to
-                    $\mathbf{v} = \mathbf{i} - 3\mathbf{j} + 2\mathbf{k}$.
-
-                    <br><br>
-                    <strong>(a)</strong> Show the parametric equations of a line $s$ that is
-                    <em>orthogonal to</em> and <em>intersects</em> $r$.
-
-                    <br>
-                    <strong>(b)</strong> If it exists, show the equation of a plane $\pi$ parallel
-                    to both $r$ and $s$ such that $\pi \cap r = \emptyset$.
-
-                    <div class="info-box">
-                        For (a): choose a point $B$ not on $r$; the foot of the perpendicular from
-                        $B$ to $r$ gives the intersection point, and the direction of $s$ is
-                        $B - \text{foot}$. For (b): $\pi$ must be parallel to both direction vectors,
-                        so its normal is $\mathbf{v} \times \mathbf{d}_s$; then choose the offset so
-                        that $r$ does not lie on $\pi$.
-                    </div>
-                </span>
-                <div class="btn-group">
-                    <button class="copy-btn" onclick="copyText(this)"
-                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. (a) Find parametric equations of a line s orthogonal to and intersecting r. (b) If it exists, find the equation of a plane pi parallel to r and s such that pi does not intersect r.">COPY</button>
-                    <button class="solve-btn" onclick="solveQuestion(this)"
-                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. (a) Find parametric equations of a line s orthogonal to and intersecting r. (b) If it exists, find the equation of a plane pi parallel to r and s such that pi does not intersect r.">GOOGLE</button>
-                    <button class="perp-btn" onclick="perplexitySearch(this)"
-                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. (a) Find parametric equations of a line s orthogonal to and intersecting r. (b) Find the equation of a plane pi parallel to r and s with pi ∩ r = empty.">
-                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                    <button class="brave-btn" onclick="braveSearch(this)"
-                        data-content="In 3D Euclidean space, let r be the line through A=(0,2,1) parallel to v = i - 3j + 2k. Find parametric equations of a line s orthogonal to and intersecting r. Find a plane pi parallel to r and s with pi ∩ r = empty.">
-                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                </div>
-            </li>
-        </ol>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════════════
-         SECTION 4 — EIGENVALUES AND DIAGONALISATION
-    ════════════════════════════════════════════════════════════ -->
-    <section class="math-section section-anchor" id="sec-eigen">
-        <h2>4 — Eigenspaces and Diagonalisation</h2>
-        <p class="section-instruction">
-            Work with the standard basis of $\mathbb{R}^3$ throughout.
-        </p>
-
-        <ol class="prob-list">
-            <li>
-                <span class="prob-num"></span>
-                <span class="prob-text">
-                    Let $A$ be the matrix representing the linear map
-                    $$f : (x_1, x_2, x_3) \;\longmapsto\; (0,\; 2x_3,\; 2x_2),$$
-                    with respect to the standard basis of $\mathbb{R}^3$.
-
-                    <br><br>
-                    Find a basis of each <strong>eigenspace</strong> of $A$. If it exists,
-                    exhibit a <strong>diagonal matrix similar</strong> to $A$.
-
-                    <div class="info-box">
-                        Write down $A$ from the map definition, compute
-                        $\det(A - \lambda I) = 0$, find eigenvalues, then solve
-                        $(A - \lambda I)\mathbf{x} = \mathbf{0}$ for each eigenvalue.
-                        $A$ is diagonalisable iff the geometric multiplicities sum to 3
-                        (i.e.\ $\mathbb{R}^3$ has a basis of eigenvectors).
-                    </div>
-                </span>
-                <div class="btn-group">
-                    <button class="copy-btn" onclick="copyText(this)"
-                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">COPY</button>
-                    <button class="solve-btn" onclick="solveQuestion(this)"
-                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">GOOGLE</button>
-                    <button class="perp-btn" onclick="perplexitySearch(this)"
-                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">
-                        <svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                    <button class="brave-btn" onclick="braveSearch(this)"
-                        data-content="Let A be the matrix of the linear map f: (x1,x2,x3) -> (0, 2*x3, 2*x2) in R^3 w.r.t. the standard basis. Find a basis of each eigenspace of A and, if it exists, a diagonal matrix similar to A.">
-                        <svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                </div>
-            </li>
-        </ol>
-    </section>
+    <!-- Main Question List Container -->
+    <div id="deckContent" class="deck-content">
+      <!-- Sections & Question Cards rendered dynamically -->
+    </div>
 
     <!-- Footer -->
-    <footer>
-        <p class="footer-stamp">Linear Algebra · Problem Set · Academic Use Only</p>
+    <footer class="deck-footer">
+      <div class="footer-left">
+        <strong>Linear Algebra Exam Archive</strong> · Source: <code>Liner Algebra-Math.pdf</code>.
+        Question text and mathematical formulas preserved verbatim. All 4 buttons dynamically use the active top format.
+      </div>
+      <div class="footer-right">
+        <a href="#top" class="nav-chip">↑ Back to Top</a>
+      </div>
     </footer>
 
-</div><!-- /.page-card -->
+  </main>
+</div>
+
+<!-- Slide-in Smart Navigation Drawer (#id Directory) -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleNavDrawer(false)"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Smart Anchor Navigation Directory">
+  <div class="drawer-header">
+    <div class="drawer-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      SMART NAVIGATION (#ID)
+    </div>
+    <button class="drawer-close" onclick="toggleNavDrawer(false)" aria-label="Close Drawer">&times;</button>
+  </div>
+  <div class="drawer-search-wrap">
+    <input type="text" class="drawer-search" id="drawerSearchInput" placeholder="Filter questions or topics..." oninput="filterDrawerNav(this.value)">
+  </div>
+  <div class="drawer-body" id="drawerNavBody">
+    <!-- Filled dynamically -->
+  </div>
+</aside>
+
+<!-- Data & Client Logic -->
+<script>
+  // 1. DATA REPOSITORY: 37 Questions across 7 Papers and 6 Categories
+  const PAPERS_DATA = [{"id": "apr-11-2025", "date": "11 April 2025", "badge": "Exam Paper 1 · April 2025", "desc": "Spring session covering ℝ⁴ scalar product subspaces, 3×3 parametric homogeneous systems, affine non-orthogonal plane bases, space planes, and endomorphism eigenspaces."}, {"id": "apr-11-2025-set2", "date": "11 April 2025 (Set 2)", "badge": "Exam Paper 2 · April 2025 (Set 2)", "desc": "Afternoon variant focusing on basis coordinates with parameter k, 2×2 parametric system solvability, orthogonal frames with unequal norms, planes parallel to line intersections, and 3D endomorphism diagonalization."}, {"id": "jun-26-2025", "date": "26 June 2025", "badge": "Exam Paper 3 · June 2025", "desc": "Summer regular session with ℝ⁴ bases, matrix ring homomorphisms, matrix square Cramer systems, orthogonal vector conditions, and non-surjective endomorphisms."}, {"id": "jul-18-2025", "date": "18 July 2025", "badge": "Exam Paper 4 · July 2025", "desc": "Mid-summer examination testing span membership, matrix product systems, orthogonal plane vectors with length constraints, orthogonal intersecting space lines, and reflection-type matrices."}, {"id": "may-20-2026", "date": "20 May 2026", "badge": "Exam Paper 5 · May 2026", "desc": "Spring 2026 session featuring subspace generator bases, 2-equation parametric systems, 60-degree plane frames, orthogonal/parallel planes, and endomorphism eigenvector obstruction."}, {"id": "jun-19-2026", "date": "19 June 2026", "badge": "Exam Paper 6 · June 2026", "desc": "Comprehensive 6-question paper adding conic section classification with parameter k, 2-point space planes, and coordinate vector transformations."}, {"id": "jul-17-2026", "date": "17 July 2026", "badge": "Exam Paper 7 · July 2026", "desc": "Final session featuring student ID customized parameter problems, orthogonal plane frames, origin-parallel space lines, linear maps defined by basis values, and quadratic conics."}];
+  const CATEGORIES_DATA = [{"id": "cat-subspaces", "key": "Subspaces & Bases", "icon": "📐", "title": "Subspaces, Bases & Homomorphisms", "desc": "Vector subspaces of ℝ⁴, generators, linear independence, basis computation, coordinates, and isomorphic polynomial/matrix spaces."}, {"id": "cat-systems", "key": "Linear Systems & Matrices", "icon": "🔢", "title": "Linear Systems, Matrices & Parameters", "desc": "Homogeneous & non-homogeneous systems, Cramer condition, parameter solvability, matrix products, rank, and determinants."}, {"id": "cat-geometry", "key": "Euclidean Geometry", "icon": "📏", "title": "Euclidean Geometry & Vector Frames", "desc": "Non-orthonormal and orthogonal frames in the Euclidean plane, vector norms, non-standard scalar products, angles, and line geometry."}, {"id": "cat-planes-lines", "key": "Planes & Lines", "icon": "🌐", "title": "Lines & Planes in Euclidean Space", "desc": "Cartesian and parametric representations of lines and planes in ℝ³, parallelism, orthogonality, distances, intersections, and skew lines."}, {"id": "cat-maps-eigenvalues", "key": "Linear Maps & Eigenvalues", "icon": "⚡", "title": "Linear Maps, Eigenvalues & Diagonalization", "desc": "Linear endomorphisms, kernel and image dimension, characteristic polynomials, eigenvalues, eigenspace bases, and diagonalizability."}, {"id": "cat-conics", "key": "Conics", "icon": "⭕", "title": "Conic Sections & Tangents", "desc": "Quadratic forms and conic classification in the plane with parameter k, degenerate vs non-degenerate conics, and real tangent lines."}];
+  const QUESTIONS_DATA = [{"id": "q-apr25-1", "paper_id": "apr-11-2025", "paper_title": "11 April 2025", "paper_date": "11 April 2025", "q_num": 1, "category": "Subspaces & Bases", "category_id": "cat-subspaces", "raw_latex": "For $k \\in \\mathbb{R}$, consider in $\\mathbb{R}^{4}$ the vectors $v = (0, k+2, 0, k+2)$ and $w = (1, 0, 0, 0)$.\n\n   1.  Choose a vector $u \\in \\mathbb{R}^{4}$ such that the standard scalar product with $(0, 0, 4, 0)$ is $-2$, and exhibit\n       a basis $\\mathcal{B}_{k}$ of the subspace $W_{k} = \\langle w, v, u-3v \\rangle \\subseteq \\mathbb{R}^{4}$.\n   2.  Compute the components of the vector $3v - u$ with respect to the basis $\\mathcal{B}_{k}$ (the answer might\n       depend on $k$).\n   3.  For $k = -2$, find a subspace $S$ of the polynomial space $\\mathbb{R}[x]$ isomorphic to $W_{-2}$ such that $\\{1,\n       x\\} \\cap S = \\emptyset$.", "human_html": "<p>For $k \\in \\mathbb{R}$, consider in $\\mathbb{R}^{4}$ the vectors $v = (0, k+2, 0, k+2)$ and $w = (1, 0, 0, 0)$.</p>\n<ol class=\"sub-list\">\n<li>Choose a vector $u \\in \\mathbb{R}^{4}$ such that the standard scalar product with $(0, 0, 4, 0)$ is $-2$, and exhibit a basis $\\mathcal{B}_{k}$ of the subspace $W_{k} = \\langle w, v, u-3v \\rangle \\subseteq \\mathbb{R}^{4}$.</li>\n<li>Compute the components of the vector $3v - u$ with respect to the basis $\\mathcal{B}_{k}$ (the answer might depend on $k$).</li>\n<li>For $k = -2$, find a subspace $S$ of the polynomial space $\\mathbb{R}[x]$ isomorphic to $W_{-2}$ such that $\\{1, x\\} \\cap S = \\emptyset$.</li>\n</ol>", "plain_text": "For k in R, consider in R4 the vectors v = (0, k+2, 0, k+2) and w = (1, 0, 0, 0).\n\n 1. Choose a vector u in R4 such that the standard scalar product with (0, 0, 4, 0) is -2, and exhibit\n a basis B_k of the subspace W_k = < w, v, u-3v > subset-of R4.\n 2. Compute the components of the vector 3v - u with respect to the basis B_k (the answer might\n depend on k).\n 3. For k = -2, find a subspace S of the polynomial space R[x] isomorphic to W_-2 such that 1,\n x intersect S = empty-set.", "unicode_text": "For k ∈ ℝ, consider in ℝ^{4} the vectors v = (0, k+2, 0, k+2) and w = (1, 0, 0, 0).\n\n 1. Choose a vector u ∈ ℝ^{4} such that the standard scalar product with (0, 0, 4, 0) is -2, and exhibit\n a basis ℬ_{k} of the subspace W_{k} = ⟨ w, v, u-3v ⟩ ⊆ ℝ^{4}.\n 2. Compute the components of the vector 3v - u with respect to the basis ℬ_{k} (the answer might\n depend on k).\n 3. For k = -2, find a subspace S of the polynomial space ℝ[x] isomorphic to W_{-2} such that {1,\n x} ∩ S = ∅.", "search_query": "For k in R, consider in R4 the vectors v = (0, k+2, 0, k+2) and w = (1, 0, 0, 0). 1. Choose a vector u in R4 such that the standard scalar product with (0, 0, 4, 0) is -2, and exhibit a basis B_k of the subspace W_k =..."}, {"id": "q-apr25-2", "paper_id": "apr-11-2025", "paper_title": "11 April 2025", "paper_date": "11 April 2025", "q_num": 2, "category": "Linear Systems & Matrices", "category_id": "cat-systems", "raw_latex": "For $b \\in \\mathbb{R}$, solve the homogeneous linear system whose coefficient matrix is:\n\n$$A = \\begin{pmatrix} 1 & -b & 7 \\\\ -b & 0 & 0 \\\\ b & 5 & -7 \\end{pmatrix}$$", "human_html": "<p>For $b \\in \\mathbb{R}$, solve the homogeneous linear system whose coefficient matrix is:</p>\n<div class=\"display-math\">$$A = \\begin{pmatrix} 1 & -b & 7 \\\\ -b & 0 & 0 \\\\ b & 5 & -7 \\end{pmatrix}$$</div>", "plain_text": "For b in R, solve the homogeneous linear system whose coefficient matrix is:\n\nA = [[1, -b, 7], [-b, 0, 0], [b, 5, -7]]", "unicode_text": "For b ∈ ℝ, solve the homogeneous linear system whose coefficient matrix is:\n\nA = [\n [1, -b, 7]\n [-b, 0, 0]\n [b, 5, -7]\n]", "search_query": "For b in R, solve the homogeneous linear system whose coefficient matrix is: A = [[1, -b, 7], [-b, 0, 0], [b, 5, -7]]"}, {"id": "q-apr25-3", "paper_id": "apr-11-2025", "paper_title": "11 April 2025", "paper_date": "11 April 2025", "q_num": 3, "category": "Euclidean Geometry", "category_id": "cat-geometry", "raw_latex": "Let $(O, \\{\\mathbf{i}, \\mathbf{j}\\})$ be a coordinate system in the Euclidean plane such that $\\mathbf{i}$ and\n$\\mathbf{j}$ both have norm 1. Moreover, $\\widehat{\\mathbf{i}\\mathbf{j}} = \\frac{3\\pi}{4}$.\n\nDraw the line $r: x + y - \\frac{2}{3} = 0$ and, after showing the components of a vector $v$ parallel to $r$, compute its\nlength.", "human_html": "<p>Let $(O, \\{\\mathbf{i}, \\mathbf{j}\\})$ be a coordinate system in the Euclidean plane such that $\\mathbf{i}$ and $\\mathbf{j}$ both have norm 1. Moreover, $\\widehat{\\mathbf{i}\\mathbf{j}} = \\frac{3\\pi}{4}$. Draw the line $r: x + y - \\frac{2}{3} = 0$ and, after showing the components of a vector $v$ parallel to $r$, compute its length.</p>", "plain_text": "Let (O, i, j) be a coordinate system in the Euclidean plane such that i and\nj both have norm 1. Moreover, widehatij = (3pi/4).\n\nDraw the line r: x + y - (2/3) = 0 and, after showing the components of a vector v parallel to r, compute its\nlength.", "unicode_text": "Let (O, {i, j}) be a coordinate system in the Euclidean plane such that i and\nj both have norm 1. Moreover, widehat{ij} = (3π/4).\n\nDraw the line r: x + y - (2/3) = 0 and, after showing the components of a vector v parallel to r, compute its\nlength.", "search_query": "Let (O, i, j) be a coordinate system in the Euclidean plane such that i and j both have norm 1. Moreover, widehatij = (3pi/4). Draw the line r: x + y - (2/3) = 0 and, after showing the components of a vector v paralle..."}, {"id": "q-apr25-4", "paper_id": "apr-11-2025", "paper_title": "11 April 2025", "paper_date": "11 April 2025", "q_num": 4, "category": "Planes & Lines", "category_id": "cat-planes-lines", "raw_latex": "Let $(O, \\{\\mathbf{i}, \\mathbf{j}, \\mathbf{k}\\})$ be a Cartesian coordinate system in Euclidean space. The plane $\\pi$ has\nequation $x + 3y - 2z + 6 = 0$ and the point $A$ has coordinates $(0, 2, 1)$.\n\nFind the coordinates of a point $H$ on the plane such that the line $r_{AH}$ connecting $A$ and $H$ is parallel to the\ny-axis. Is the origin $O$ collinear with $A$ and $H$?", "human_html": "<p>Let $(O, \\{\\mathbf{i}, \\mathbf{j}, \\mathbf{k}\\})$ be a Cartesian coordinate system in Euclidean space. The plane $\\pi$ has equation $x + 3y - 2z + 6 = 0$ and the point $A$ has coordinates $(0, 2, 1)$. Find the coordinates of a point $H$ on the plane such that the line $r_{AH}$ connecting $A$ and $H$ is parallel to the y-axis. Is the origin $O$ collinear with $A$ and $H$?</p>", "plain_text": "Let (O, i, j, k) be a Cartesian coordinate system in Euclidean space. The plane pi has\nequation x + 3y - 2z + 6 = 0 and the point A has coordinates (0, 2, 1).\n\nFind the coordinates of a point H on the plane such that the line r_AH connecting A and H is parallel to the\ny-axis. Is the origin O collinear with A and H?", "unicode_text": "Let (O, {i, j, k}) be a Cartesian coordinate system in Euclidean space. The plane π has\nequation x + 3y - 2z + 6 = 0 and the point A has coordinates (0, 2, 1).\n\nFind the coordinates of a point H on the plane such that the line r_{AH} connecting A and H is parallel to the\ny-axis. Is the origin O collinear with A and H?", "search_query": "Let (O, i, j, k) be a Cartesian coordinate system in Euclidean space. The plane pi has equation x + 3y - 2z + 6 = 0 and the point A has coordinates (0, 2, 1). Find the coordinates of a point H on the plane such that t..."}, {"id": "q-apr25-5", "paper_id": "apr-11-2025", "paper_title": "11 April 2025", "paper_date": "11 April 2025", "q_num": 5, "category": "Linear Maps & Eigenvalues", "category_id": "cat-maps-eigenvalues", "raw_latex": "Let $g: \\mathbb{R}^{4} \\to \\mathbb{R}^{4}$ be the endomorphism defined by:\n\n$$g(x_{1}, x_{2}, x_{3}, x_{4}) = (0, 0, 0, 4x_{1})$$\n\n   1.  Find two non-zero vectors that are not eigenvectors.\n   2.  Compute a basis for $\\text{Im}(g)$ and for each eigenspace.\n   3.  Is $g$ diagonalizable", "human_html": "<p>Let $g: \\mathbb{R}^{4} \\to \\mathbb{R}^{4}$ be the endomorphism defined by:</p>\n<div class=\"display-math\">$$g(x_{1}, x_{2}, x_{3}, x_{4}) = (0, 0, 0, 4x_{1})$$</div>\n<ol class=\"sub-list\">\n<li>Find two non-zero vectors that are not eigenvectors.</li>\n<li>Compute a basis for $\\text{Im}(g)$ and for each eigenspace.</li>\n<li>Is $g$ diagonalizable</li>\n</ol>", "plain_text": "Let g: R4 -> R4 be the endomorphism defined by:\n\ng(x_1, x_2, x_3, x_4) = (0, 0, 0, 4x_1)\n\n 1. Find two non-zero vectors that are not eigenvectors.\n 2. Compute a basis for Im(g) and for each eigenspace.\n 3. Is g diagonalizable", "unicode_text": "Let g: ℝ^{4} → ℝ^{4} be the endomorphism defined by:\n\ng(x_{1}, x_{2}, x_{3}, x_{4}) = (0, 0, 0, 4x_{1})\n\n 1. Find two non-zero vectors that are not eigenvectors.\n 2. Compute a basis for Im(g) and for each eigenspace.\n 3. Is g diagonalizable", "search_query": "Let g: R4 -> R4 be the endomorphism defined by: g(x_1, x_2, x_3, x_4) = (0, 0, 0, 4x_1) 1. Find two non-zero vectors that are not eigenvectors. 2. Compute a basis for Im(g) and for each eigenspace. 3. Is g diagonalizable"}, {"id": "q-apr25s2-1", "paper_id": "apr-11-2025-set2", "paper_title": "11 April 2025 (Set 2)", "paper_date": "11 April 2025 · Set 2", "q_num": 1, "category": "Subspaces & Bases", "category_id": "cat-subspaces", "raw_latex": "For $k \\in \\mathbb{R}$, exhibit a basis of the subspace $W_{k} \\subseteq \\mathbb{R}^{4}$ spanned by:\n\n$$u_{1} = (-1, 11, 4, 25), \\quad u_{2} = (k-3, 0, 0, 0), \\quad u_{3} = (0, 11, 4, 25)$$\n\nCompute, for each $k$, the components of $v = (3, 0, 0, 0)$ with respect to the chosen basis.\n\nExplain the reason why the subspace $U = \\{(a, -11a, -4a+b, -25a) : a, b \\in \\mathbb{R}\\}$ is not equal to $W_{0}$ (the\nsubspace obtained by replacing $k=0$ in the previous point).", "human_html": "<p>For $k \\in \\mathbb{R}$, exhibit a basis of the subspace $W_{k} \\subseteq \\mathbb{R}^{4}$ spanned by:</p>\n<div class=\"display-math\">$$u_{1} = (-1, 11, 4, 25), \\quad u_{2} = (k-3, 0, 0, 0), \\quad u_{3} = (0, 11, 4, 25)$$</div>\n<p>Compute, for each $k$, the components of $v = (3, 0, 0, 0)$ with respect to the chosen basis. Explain the reason why the subspace $U = \\{(a, -11a, -4a+b, -25a) : a, b \\in \\mathbb{R}\\}$ is not equal to $W_{0}$ (the subspace obtained by replacing $k=0$ in the previous point).</p>", "plain_text": "For k in R, exhibit a basis of the subspace W_k subset-of R4 spanned by:\n\nu_1 = (-1, 11, 4, 25), u_2 = (k-3, 0, 0, 0), u_3 = (0, 11, 4, 25)\n\nCompute, for each k, the components of v = (3, 0, 0, 0) with respect to the chosen basis.\n\nExplain the reason why the subspace U = (a, -11a, -4a+b, -25a) : a, b in R is not equal to W_0 (the\nsubspace obtained by replacing k=0 in the previous point).", "unicode_text": "For k ∈ ℝ, exhibit a basis of the subspace W_{k} ⊆ ℝ^{4} spanned by:\n\nu_{1} = (-1, 11, 4, 25), u_{2} = (k-3, 0, 0, 0), u_{3} = (0, 11, 4, 25)\n\nCompute, for each k, the components of v = (3, 0, 0, 0) with respect to the chosen basis.\n\nExplain the reason why the subspace U = {(a, -11a, -4a+b, -25a) : a, b ∈ ℝ} is not equal to W_{0} (the\nsubspace obtained by replacing k=0 in the previous point).", "search_query": "For k in R, exhibit a basis of the subspace W_k subset-of R4 spanned by: u_1 = (-1, 11, 4, 25), u_2 = (k-3, 0, 0, 0), u_3 = (0, 11, 4, 25) Compute, for each k, the components of v = (3, 0, 0, 0) with respect to the ch..."}, {"id": "q-apr25s2-2", "paper_id": "apr-11-2025-set2", "paper_title": "11 April 2025 (Set 2)", "paper_date": "11 April 2025 · Set 2", "q_num": 2, "category": "Linear Systems & Matrices", "category_id": "cat-systems", "raw_latex": "Let $\\mathcal{S}_{h}$ be the linear system having:\n\n$$A = \\begin{pmatrix} h & 2 \\\\ 4 & 2h \\end{pmatrix}$$\n\nas coefficient matrix and\n\n$$B = \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix}$$\n\nas column of constant terms. For all $h$ making the system solvable, find its set of solutions.", "human_html": "<p>Let $\\mathcal{S}_{h}$ be the linear system having:</p>\n<div class=\"display-math\">$$A = \\begin{pmatrix} h & 2 \\\\ 4 & 2h \\end{pmatrix}$$</div>\n<p>as coefficient matrix and</p>\n<div class=\"display-math\">$$B = \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix}$$</div>\n<p>as column of constant terms. For all $h$ making the system solvable, find its set of solutions.</p>", "plain_text": "Let mathcalS_h be the linear system having:\n\nA = [[h, 2], [4, 2h]]\n\nas coefficient matrix and\n\nB = [[1], [-2]]\n\nas column of constant terms. For all h making the system solvable, find its set of solutions.", "unicode_text": "Let 𝒮_{h} be the linear system having:\n\nA = [\n [h, 2]\n [4, 2h]\n]\n\nas coefficient matrix and\n\nB = [\n [1]\n [-2]\n]\n\nas column of constant terms. For all h making the system solvable, find its set of solutions.", "search_query": "Let mathcalS_h be the linear system having: A = [[h, 2], [4, 2h]] as coefficient matrix and B = [[1], [-2]] as column of constant terms. For all h making the system solvable, find its set of solutions."}, {"id": "q-apr25s2-3", "paper_id": "apr-11-2025-set2", "paper_title": "11 April 2025 (Set 2)", "paper_date": "11 April 2025 · Set 2", "q_num": 3, "category": "Euclidean Geometry", "category_id": "cat-geometry", "raw_latex": "Let $(O, \\{i, j\\})$ be an ORTHOGONAL coordinate system such that $\\vert{}i\\vert{} = 2\\vert{}j\\vert{} = 2$. Justifying the\nchoice, exhibit the components of a vector which is neither parallel nor orthogonal to the vectors in the set $\\{i, j, 3i-j\\}$.", "human_html": "<p>Let $(O, \\{i, j\\})$ be an ORTHOGONAL coordinate system such that $\\vert{}i\\vert{} = 2\\vert{}j\\vert{} = 2$. Justifying the choice, exhibit the components of a vector which is neither parallel nor orthogonal to the vectors in the set $\\{i, j, 3i-j\\}$.</p>", "plain_text": "Let (O, i, j) be an ORTHOGONAL coordinate system such that |i| = 2|j| = 2. Justifying the\nchoice, exhibit the components of a vector which is neither parallel nor orthogonal to the vectors in the set i, j, 3i-j.", "unicode_text": "Let (O, {i, j}) be an ORTHOGONAL coordinate system such that |i| = 2|j| = 2. Justifying the\nchoice, exhibit the components of a vector which is neither parallel nor orthogonal to the vectors in the set {i, j, 3i-j}.", "search_query": "Let (O, i, j) be an ORTHOGONAL coordinate system such that |i| = 2|j| = 2. Justifying the choice, exhibit the components of a vector which is neither parallel nor orthogonal to the vectors in the set i, j, 3i-j."}, {"id": "q-apr25s2-4", "paper_id": "apr-11-2025-set2", "paper_title": "11 April 2025 (Set 2)", "paper_date": "11 April 2025 · Set 2", "q_num": 4, "category": "Planes & Lines", "category_id": "cat-planes-lines", "raw_latex": "After fixing any coordinate system in the Euclidean space, show the equation of a plane through the point $A \\equiv (6, 5,\n4)$ and parallel to the line:\n\n$$\\begin{cases} x + 2y + z = 1 \\\\ 2x - y + 3z = 0 \\end{cases}$$\n\nIs the chosen plane parallel to the x-, the y-, or the z-axis?", "human_html": "<p>After fixing any coordinate system in the Euclidean space, show the equation of a plane through the point $A \\equiv (6, 5, 4)$ and parallel to the line:</p>\n<div class=\"display-math\">$$\\begin{cases} x + 2y + z = 1 \\\\ 2x - y + 3z = 0 \\end{cases}$$</div>\n<p>Is the chosen plane parallel to the x-, the y-, or the z-axis?</p>", "plain_text": "After fixing any coordinate system in the Euclidean space, show the equation of a plane through the point A = (6, 5,\n4) and parallel to the line:\n\n x + 2y + z = 1 ; 2x - y + 3z = 0 \n\nIs the chosen plane parallel to the x-, the y-, or the z-axis?", "unicode_text": "After fixing any coordinate system in the Euclidean space, show the equation of a plane through the point A equiv (6, 5,\n4) and parallel to the line:\n\n{ x + 2y + z = 1 ; 2x - y + 3z = 0 }\n\nIs the chosen plane parallel to the x-, the y-, or the z-axis?", "search_query": "After fixing any coordinate system in the Euclidean space, show the equation of a plane through the point A = (6, 5, 4) and parallel to the line: x + 2y + z = 1 ; 2x - y + 3z = 0 Is the chosen plane parallel to the x-..."}, {"id": "q-apr25s2-5", "paper_id": "apr-11-2025-set2", "paper_title": "11 April 2025 (Set 2)", "paper_date": "11 April 2025 · Set 2", "q_num": 5, "category": "Linear Maps & Eigenvalues", "category_id": "cat-maps-eigenvalues", "raw_latex": "Show a basis of $\\text{Im}\\,f$ and of each eigenspace related to the endomorphism:\n\n$$f : (x_{1}, x_{2}, x_{3}) \\in \\mathbb{R}^{3} \\mapsto (-6x_{1}, x_{2} - 7x_{3}, 2x_{2} - 8x_{3}) \\in \\mathbb{R}^{3}$$\n\nCheck whether there exist diagonal matrices representing $f$ when a suitable basis is fixed. If this is the case, exhibit one\nof them.", "human_html": "<p>Show a basis of $\\text{Im}\\,f$ and of each eigenspace related to the endomorphism:</p>\n<div class=\"display-math\">$$f : (x_{1}, x_{2}, x_{3}) \\in \\mathbb{R}^{3} \\mapsto (-6x_{1}, x_{2} - 7x_{3}, 2x_{2} - 8x_{3}) \\in \\mathbb{R}^{3}$$</div>\n<p>Check whether there exist diagonal matrices representing $f$ when a suitable basis is fixed. If this is the case, exhibit one of them.</p>", "plain_text": "Show a basis of Im f and of each eigenspace related to the endomorphism:\n\nf : (x_1, x_2, x_3) in R3 |-> (-6x_1, x_2 - 7x_3, 2x_2 - 8x_3) in R3\n\nCheck whether there exist diagonal matrices representing f when a suitable basis is fixed. If this is the case, exhibit one\nof them.", "unicode_text": "Show a basis of Im f and of each eigenspace related to the endomorphism:\n\nf : (x_{1}, x_{2}, x_{3}) ∈ ℝ^{3} ↦ (-6x_{1}, x_{2} - 7x_{3}, 2x_{2} - 8x_{3}) ∈ ℝ^{3}\n\nCheck whether there exist diagonal matrices representing f when a suitable basis is fixed. If this is the case, exhibit one\nof them.", "search_query": "Show a basis of Im f and of each eigenspace related to the endomorphism: f : (x_1, x_2, x_3) in R3 |-> (-6x_1, x_2 - 7x_3, 2x_2 - 8x_3) in R3 Check whether there exist diagonal matrices representing f when a suitable ..."}, {"id": "q-jun25-1", "paper_id": "jun-26-2025", "paper_title": "26 June 2025", "paper_date": "26 June 2025", "q_num": 1, "category": "Subspaces & Bases", "category_id": "cat-subspaces", "raw_latex": "For $k \\in \\mathbb{R}$, exhibit a basis $\\mathcal{B}_{k}$ of the subspace $W_{k} \\subseteq \\mathbb{R}^{4}$ spanned by:\n\n$$u_{1} = (6,6,25,0), \\quad u_{2} = (1,k,3,1), \\quad \\text{and} \\quad u_{3} = (0, 6-6k, 7, -2k)$$\n\n   1.  In the various cases, compute the components of $\\sqrt{55}u_{3}$ with respect to $\\mathcal{B}_{k}$ (these\n       components might depend on $k$).\n\n    2.  In the vector space of matrices $\\mathcal{M}_{3\\times 4}$, choose a matrix $B$ having rank $2$. Establish whether\n        there exists an injective homomorphism from $\\langle B \\rangle$ to $W_{0}$ (give a justification for the answer).", "human_html": "<p>For $k \\in \\mathbb{R}$, exhibit a basis $\\mathcal{B}_{k}$ of the subspace $W_{k} \\subseteq \\mathbb{R}^{4}$ spanned by:</p>\n<div class=\"display-math\">$$u_{1} = (6,6,25,0), \\quad u_{2} = (1,k,3,1), \\quad \\text{and} \\quad u_{3} = (0, 6-6k, 7, -2k)$$</div>\n<ol class=\"sub-list\">\n<li>In the various cases, compute the components of $\\sqrt{55}u_{3}$ with respect to $\\mathcal{B}_{k}$ (these components might depend on $k$).</li>\n<li>In the vector space of matrices $\\mathcal{M}_{3\\times 4}$, choose a matrix $B$ having rank $2$. Establish whether there exists an injective homomorphism from $\\langle B \\rangle$ to $W_{0}$ (give a justification for the answer).</li>\n</ol>", "plain_text": "For k in R, exhibit a basis B_k of the subspace W_k subset-of R4 spanned by:\n\nu_1 = (6,6,25,0), u_2 = (1,k,3,1), and u_3 = (0, 6-6k, 7, -2k)\n\n 1. In the various cases, compute the components of sqrt(55)u_3 with respect to B_k (these\n components might depend on k).\n\n 2. In the vector space of matrices M_3x4, choose a matrix B having rank 2. Establish whether\n there exists an injective homomorphism from < B > to W_0 (give a justification for the answer).", "unicode_text": "For k ∈ ℝ, exhibit a basis ℬ_{k} of the subspace W_{k} ⊆ ℝ^{4} spanned by:\n\nu_{1} = (6,6,25,0), u_{2} = (1,k,3,1), and u_{3} = (0, 6-6k, 7, -2k)\n\n 1. In the various cases, compute the components of √(55)u_{3} with respect to ℬ_{k} (these\n components might depend on k).\n\n 2. In the vector space of matrices ℳ_{3times 4}, choose a matrix B having rank 2. Establish whether\n there exists an injective homomorphism from ⟨ B ⟩ to W_{0} (give a justification for the answer).", "search_query": "For k in R, exhibit a basis B_k of the subspace W_k subset-of R4 spanned by: u_1 = (6,6,25,0), u_2 = (1,k,3,1), and u_3 = (0, 6-6k, 7, -2k) 1. In the various cases, compute the components of sqrt(55)u_3 with respect t..."}, {"id": "q-jun25-2", "paper_id": "jun-26-2025", "paper_title": "26 June 2025", "paper_date": "26 June 2025", "q_num": 2, "category": "Linear Systems & Matrices", "category_id": "cat-systems", "raw_latex": "Let $A$ be the matrix:\n\n$$A = \\begin{pmatrix} 1 & 2 \\\\ 5 & h \\end{pmatrix}$$\n\n    1.  Find the values of $h$ such that the matrix $A \\cdot A$ (obtained by multiplying $A$ by itself through the\n        rows-by-columns product) is the coefficient matrix of a linear system of Cramer type.\n    2.  Find also the values of $h$ (if any) such that the determinant of $A^{-1}$ is $26$.", "human_html": "<p>Let $A$ be the matrix:</p>\n<div class=\"display-math\">$$A = \\begin{pmatrix} 1 & 2 \\\\ 5 & h \\end{pmatrix}$$</div>\n<ol class=\"sub-list\">\n<li>Find the values of $h$ such that the matrix $A \\cdot A$ (obtained by multiplying $A$ by itself through the rows-by-columns product) is the coefficient matrix of a linear system of Cramer type.</li>\n<li>Find also the values of $h$ (if any) such that the determinant of $A^{-1}$ is $26$.</li>\n</ol>", "plain_text": "Let A be the matrix:\n\nA = [[1, 2], [5, h]]\n\n 1. Find the values of h such that the matrix A * A (obtained by multiplying A by itself through the\n rows-by-columns product) is the coefficient matrix of a linear system of Cramer type.\n 2. Find also the values of h (if any) such that the determinant of A^-1 is 26.", "unicode_text": "Let A be the matrix:\n\nA = [\n [1, 2]\n [5, h]\n]\n\n 1. Find the values of h such that the matrix A · A (obtained by multiplying A by itself through the\n rows-by-columns product) is the coefficient matrix of a linear system of Cramer type.\n 2. Find also the values of h (if any) such that the determinant of A^{-1} is 26.", "search_query": "Let A be the matrix: A = [[1, 2], [5, h]] 1. Find the values of h such that the matrix A * A (obtained by multiplying A by itself through the rows-by-columns product) is the coefficient matrix of a linear system of Cr..."}, {"id": "q-jun25-3", "paper_id": "jun-26-2025", "paper_title": "26 June 2025", "paper_date": "26 June 2025", "q_num": 3, "category": "Euclidean Geometry", "category_id": "cat-geometry", "raw_latex": "Fixed a Cartesian coordinate system in the Euclidean plane $(O, [\\mathbf{i}, \\mathbf{j}])$, find the values of $h$ that make\nthe line $3x + hy + \\sqrt{7} = 0$ orthogonal to the vector $v = \\mathbf{i} + 2\\mathbf{j}$.", "human_html": "<p>Fixed a Cartesian coordinate system in the Euclidean plane $(O, [\\mathbf{i}, \\mathbf{j}])$, find the values of $h$ that make the line $3x + hy + \\sqrt{7} = 0$ orthogonal to the vector $v = \\mathbf{i} + 2\\mathbf{j}$.</p>", "plain_text": "Fixed a Cartesian coordinate system in the Euclidean plane (O, [i, j]), find the values of h that make\nthe line 3x + hy + sqrt(7) = 0 orthogonal to the vector v = i + 2j.", "unicode_text": "Fixed a Cartesian coordinate system in the Euclidean plane (O, [i, j]), find the values of h that make\nthe line 3x + hy + √(7) = 0 orthogonal to the vector v = i + 2j.", "search_query": "Fixed a Cartesian coordinate system in the Euclidean plane (O, [i, j]), find the values of h that make the line 3x + hy + sqrt(7) = 0 orthogonal to the vector v = i + 2j."}, {"id": "q-jun25-4", "paper_id": "jun-26-2025", "paper_title": "26 June 2025", "paper_date": "26 June 2025", "q_num": 4, "category": "Planes & Lines", "category_id": "cat-planes-lines", "raw_latex": "Fixed a Cartesian coordinate system in the Euclidean space, write the equation of a plane $\\pi$ through the point $A\n\\equiv (1, 2, 3)$ which is orthogonal to the line:\n\n$$\\begin{cases} 2x + y - z = 1 \\\\ x - y - 2z = 0 \\end{cases}$$\n\nDecide whether the vector $\\mathbf{i} + 2\\mathbf{j}$ is parallel to $\\pi$.", "human_html": "<p>Fixed a Cartesian coordinate system in the Euclidean space, write the equation of a plane $\\pi$ through the point $A \\equiv (1, 2, 3)$ which is orthogonal to the line:</p>\n<div class=\"display-math\">$$\\begin{cases} 2x + y - z = 1 \\\\ x - y - 2z = 0 \\end{cases}$$</div>\n<p>Decide whether the vector $\\mathbf{i} + 2\\mathbf{j}$ is parallel to $\\pi$.</p>", "plain_text": "Fixed a Cartesian coordinate system in the Euclidean space, write the equation of a plane pi through the point A\n= (1, 2, 3) which is orthogonal to the line:\n\n 2x + y - z = 1 ; x - y - 2z = 0 \n\nDecide whether the vector i + 2j is parallel to pi.", "unicode_text": "Fixed a Cartesian coordinate system in the Euclidean space, write the equation of a plane π through the point A\nequiv (1, 2, 3) which is orthogonal to the line:\n\n{ 2x + y - z = 1 ; x - y - 2z = 0 }\n\nDecide whether the vector i + 2j is parallel to π.", "search_query": "Fixed a Cartesian coordinate system in the Euclidean space, write the equation of a plane pi through the point A = (1, 2, 3) which is orthogonal to the line: 2x + y - z = 1 ; x - y - 2z = 0 Decide whether the vector i..."}, {"id": "q-jun25-5", "paper_id": "jun-26-2025", "paper_title": "26 June 2025", "paper_date": "26 June 2025", "q_num": 5, "category": "Linear Maps & Eigenvalues", "category_id": "cat-maps-eigenvalues", "raw_latex": "Consider the endomorphism:\n\n$$f : (x_{1}, x_{2}, x_{3}) \\in \\mathbb{R}^{3} \\mapsto (2x_{1}, 4x_{1}, 2x_{3}) \\in \\mathbb{R}^{3}$$\n\nFind:\n\n   ●   A vector of $\\mathbb{R}^{3}$ not belonging to $\\operatorname{Im}(f)$ (the vector might not exist);\n   ●   Two vectors $v$ and $w$ such that $f(v) = f(w)$;\n   ●   A basis for each eigenspace.", "human_html": "<p>Consider the endomorphism:</p>\n<div class=\"display-math\">$$f : (x_{1}, x_{2}, x_{3}) \\in \\mathbb{R}^{3} \\mapsto (2x_{1}, 4x_{1}, 2x_{3}) \\in \\mathbb{R}^{3}$$</div>\n<p>Find:</p>\n<ul class=\"bullet-list\">\n<li>A vector of $\\mathbb{R}^{3}$ not belonging to $\\operatorname{Im}(f)$ (the vector might not exist);</li>\n<li>Two vectors $v$ and $w$ such that $f(v) = f(w)$;</li>\n<li>A basis for each eigenspace.</li>\n</ul>", "plain_text": "Consider the endomorphism:\n\nf : (x_1, x_2, x_3) in R3 |-> (2x_1, 4x_1, 2x_3) in R3\n\nFind:\n\n ● A vector of R3 not belonging to Im(f) (the vector might not exist);\n ● Two vectors v and w such that f(v) = f(w);\n ● A basis for each eigenspace.", "unicode_text": "Consider the endomorphism:\n\nf : (x_{1}, x_{2}, x_{3}) ∈ ℝ^{3} ↦ (2x_{1}, 4x_{1}, 2x_{3}) ∈ ℝ^{3}\n\nFind:\n\n ● A vector of ℝ^{3} not belonging to Im(f) (the vector might not exist);\n ● Two vectors v and w such that f(v) = f(w);\n ● A basis for each eigenspace.", "search_query": "Consider the endomorphism: f : (x_1, x_2, x_3) in R3 |-> (2x_1, 4x_1, 2x_3) in R3 Find: ● A vector of R3 not belonging to Im(f) (the vector might not exist); ● Two vectors v and w such that f(v) = f(w); ● A basis for ..."}, {"id": "q-jul25-1", "paper_id": "jul-18-2025", "paper_title": "18 July 2025", "paper_date": "18 July 2025", "q_num": 1, "category": "Subspaces & Bases", "category_id": "cat-subspaces", "raw_latex": "1.  Fix three non-null vectors $u, v, w \\in \\mathbb{R}^{4}$ such that only $u$ belongs to the subspace $U =\n       \\text{span}\\{(4,3,2,1), (-1,0,0,0)\\}$ (explain why the chosen $v$ and $w$ do not belong to $U$).\n   2.  Exhibit two different bases of the subspace $W$ of $\\mathbb{R}^{4}$ spanned by $w$, $u$, and $u+v$.\n   3.  Show a subspace $S$ of the polynomials $\\mathbb{R}[x]$ isomorphic to $U$. If possible, exhibit two non-null linear\n       maps from $S$ to $U$ which are not isomorphisms.", "human_html": "<ol class=\"sub-list\">\n<li>Fix three non-null vectors $u, v, w \\in \\mathbb{R}^{4}$ such that only $u$ belongs to the subspace $U = \\text{span}\\{(4,3,2,1), (-1,0,0,0)\\}$ (explain why the chosen $v$ and $w$ do not belong to $U$).</li>\n<li>Exhibit two different bases of the subspace $W$ of $\\mathbb{R}^{4}$ spanned by $w$, $u$, and $u+v$.</li>\n<li>Show a subspace $S$ of the polynomials $\\mathbb{R}[x]$ isomorphic to $U$. If possible, exhibit two non-null linear maps from $S$ to $U$ which are not isomorphisms.</li>\n</ol>", "plain_text": "1. Fix three non-null vectors u, v, w in R4 such that only u belongs to the subspace U =\n span(4,3,2,1), (-1,0,0,0) (explain why the chosen v and w do not belong to U).\n 2. Exhibit two different bases of the subspace W of R4 spanned by w, u, and u+v.\n 3. Show a subspace S of the polynomials R[x] isomorphic to U. If possible, exhibit two non-null linear\n maps from S to U which are not isomorphisms.", "unicode_text": "1. Fix three non-null vectors u, v, w ∈ ℝ^{4} such that only u belongs to the subspace U =\n span{(4,3,2,1), (-1,0,0,0)} (explain why the chosen v and w do not belong to U).\n 2. Exhibit two different bases of the subspace W of ℝ^{4} spanned by w, u, and u+v.\n 3. Show a subspace S of the polynomials ℝ[x] isomorphic to U. If possible, exhibit two non-null linear\n maps from S to U which are not isomorphisms.", "search_query": "1. Fix three non-null vectors u, v, w in R4 such that only u belongs to the subspace U = span(4,3,2,1), (-1,0,0,0) (explain why the chosen v and w do not belong to U). 2. Exhibit two different bases of the subspace W ..."}, {"id": "q-jul25-2", "paper_id": "jul-18-2025", "paper_title": "18 July 2025", "paper_date": "18 July 2025", "q_num": 2, "category": "Linear Systems & Matrices", "category_id": "cat-systems", "raw_latex": "For $a \\in \\mathbb{R}$, set:\n\n$$E = \\begin{pmatrix} 1 & -a \\\\ -a & 4 \\end{pmatrix}, \\quad F = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}, \\quad G =\n\\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix}$$\n\nSolve the linear system:\n\n$$EF \\begin{pmatrix} x \\\\ y \\end{pmatrix} = G$$\n\nfor all values of $a$ that make it solvable (the product between matrices is the rows-by-columns product).", "human_html": "<p>For $a \\in \\mathbb{R}$, set:</p>\n<p>$$E = \\begin{pmatrix} 1 & -a \\\\ -a & 4 \\end{pmatrix}, \\quad F = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}, \\quad G = \\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix}$$ Solve the linear system:</p>\n<div class=\"display-math\">$$EF \\begin{pmatrix} x \\\\ y \\end{pmatrix} = G$$</div>\n<p>for all values of $a$ that make it solvable (the product between matrices is the rows-by-columns product).</p>", "plain_text": "For a in R, set:\n\nE = [[1, -a], [-a, 4]], F = [[1, 2], [3, 4]], G =\n[[3], [6]]\n\nSolve the linear system:\n\nEF [[x], [y]] = G\n\nfor all values of a that make it solvable (the product between matrices is the rows-by-columns product).", "unicode_text": "For a ∈ ℝ, set:\n\nE = [\n [1, -a]\n [-a, 4]\n], F = [\n [1, 2]\n [3, 4]\n], G =\n[\n [3]\n [6]\n]\n\nSolve the linear system:\n\nEF [\n [x]\n [y]\n] = G\n\nfor all values of a that make it solvable (the product between matrices is the rows-by-columns product).", "search_query": "For a in R, set: E = [[1, -a], [-a, 4]], F = [[1, 2], [3, 4]], G = [[3], [6]] Solve the linear system: EF [[x], [y]] = G for all values of a that make it solvable (the product between matrices is the rows-by-columns p..."}, {"id": "q-jul25-3", "paper_id": "jul-18-2025", "paper_title": "18 July 2025", "paper_date": "18 July 2025", "q_num": 3, "category": "Euclidean Geometry", "category_id": "cat-geometry", "raw_latex": "Let $(O, [\\mathbf{i}, \\mathbf{j}])$ be a Cartesian coordinate system in the Euclidean plane.\n\n   1.  Show the components of a vector $\\mathbf{v}$ having length $3$ and orthogonal to the line $2x + y - 3 = 0$.\n   2.  Determine whether the angle formed by $\\mathbf{v}$ and the vector $\\mathbf{w} = 20\\mathbf{i} - 40\\mathbf{j}$ is\n       acute.", "human_html": "<p>Let $(O, [\\mathbf{i}, \\mathbf{j}])$ be a Cartesian coordinate system in the Euclidean plane.</p>\n<ol class=\"sub-list\">\n<li>Show the components of a vector $\\mathbf{v}$ having length $3$ and orthogonal to the line $2x + y - 3 = 0$.</li>\n<li>Determine whether the angle formed by $\\mathbf{v}$ and the vector $\\mathbf{w} = 20\\mathbf{i} - 40\\mathbf{j}$ is acute.</li>\n</ol>", "plain_text": "Let (O, [i, j]) be a Cartesian coordinate system in the Euclidean plane.\n\n 1. Show the components of a vector v having length 3 and orthogonal to the line 2x + y - 3 = 0.\n 2. Determine whether the angle formed by v and the vector w = 20i - 40j is\n acute.", "unicode_text": "Let (O, [i, j]) be a Cartesian coordinate system in the Euclidean plane.\n\n 1. Show the components of a vector mathbf{v} having length 3 and orthogonal to the line 2x + y - 3 = 0.\n 2. Determine whether the angle formed by mathbf{v} and the vector mathbf{w} = 20i - 40j is\n acute.", "search_query": "Let (O, [i, j]) be a Cartesian coordinate system in the Euclidean plane. 1. Show the components of a vector v having length 3 and orthogonal to the line 2x + y - 3 = 0. 2. Determine whether the angle formed by v and t..."}, {"id": "q-jul25-4", "paper_id": "jul-18-2025", "paper_title": "18 July 2025", "paper_date": "18 July 2025", "q_num": 4, "category": "Planes & Lines", "category_id": "cat-planes-lines", "raw_latex": "Let $(O, [\\mathbf{i}, \\mathbf{j}, \\mathbf{k}])$ be a Cartesian coordinate system in the Euclidean space, and let $r$ be the\nline through the point $A \\equiv (0,2,1)$ parallel to $\\mathbf{v} = \\mathbf{i} - 3\\mathbf{j} + 2\\mathbf{k}$.\n\n   1.  Show the parametric equations of a line $s$ orthogonal to and intersecting $r$.\n   2.  Moreover, if it exists, show the equation of a plane $\\pi$ parallel to $r$ and $s$ such that $\\pi \\cap r = \\emptyset$.", "human_html": "<p>Let $(O, [\\mathbf{i}, \\mathbf{j}, \\mathbf{k}])$ be a Cartesian coordinate system in the Euclidean space, and let $r$ be the line through the point $A \\equiv (0,2,1)$ parallel to $\\mathbf{v} = \\mathbf{i} - 3\\mathbf{j} + 2\\mathbf{k}$.</p>\n<ol class=\"sub-list\">\n<li>Show the parametric equations of a line $s$ orthogonal to and intersecting $r$.</li>\n<li>Moreover, if it exists, show the equation of a plane $\\pi$ parallel to $r$ and $s$ such that $\\pi \\cap r = \\emptyset$.</li>\n</ol>", "plain_text": "Let (O, [i, j, k]) be a Cartesian coordinate system in the Euclidean space, and let r be the\nline through the point A = (0,2,1) parallel to v = i - 3j + 2k.\n\n 1. Show the parametric equations of a line s orthogonal to and intersecting r.\n 2. Moreover, if it exists, show the equation of a plane pi parallel to r and s such that pi intersect r = empty-set.", "unicode_text": "Let (O, [i, j, k]) be a Cartesian coordinate system in the Euclidean space, and let r be the\nline through the point A equiv (0,2,1) parallel to mathbf{v} = i - 3j + 2k.\n\n 1. Show the parametric equations of a line s orthogonal to and intersecting r.\n 2. Moreover, if it exists, show the equation of a plane π parallel to r and s such that π ∩ r = ∅.", "search_query": "Let (O, [i, j, k]) be a Cartesian coordinate system in the Euclidean space, and let r be the line through the point A = (0,2,1) parallel to v = i - 3j + 2k. 1. Show the parametric equations of a line s orthogonal to a..."}, {"id": "q-jul25-5", "paper_id": "jul-18-2025", "paper_title": "18 July 2025", "paper_date": "18 July 2025", "q_num": 5, "category": "Linear Maps & Eigenvalues", "category_id": "cat-maps-eigenvalues", "raw_latex": "Let $A$ be the matrix representing the linear map:\n\n$$f: (x_1, x_2, x_3) \\in \\mathbb{R}^3 \\mapsto (0, 2x_3, 2x_2) \\in \\mathbb{R}^3$$\n\nonce the standard basis of $\\mathbb{R}^3$ is fixed. Show a basis of each eigenspace and (if it exists) a diagonal matrix\nsimilar to $A$.", "human_html": "<p>Let $A$ be the matrix representing the linear map:</p>\n<div class=\"display-math\">$$f: (x_1, x_2, x_3) \\in \\mathbb{R}^3 \\mapsto (0, 2x_3, 2x_2) \\in \\mathbb{R}^3$$</div>\n<p>once the standard basis of $\\mathbb{R}^3$ is fixed. Show a basis of each eigenspace and (if it exists) a diagonal matrix similar to $A$.</p>", "plain_text": "Let A be the matrix representing the linear map:\n\nf: (x_1, x_2, x_3) in R^3 |-> (0, 2x_3, 2x_2) in R^3\n\nonce the standard basis of R^3 is fixed. Show a basis of each eigenspace and (if it exists) a diagonal matrix\nsimilar to A.", "unicode_text": "Let A be the matrix representing the linear map:\n\nf: (x_1, x_2, x_3) ∈ ℝ³ ↦ (0, 2x_3, 2x_2) ∈ ℝ³\n\nonce the standard basis of ℝ³ is fixed. Show a basis of each eigenspace and (if it exists) a diagonal matrix\nsimilar to A.", "search_query": "Let A be the matrix representing the linear map: f: (x_1, x_2, x_3) in R^3 |-> (0, 2x_3, 2x_2) in R^3 once the standard basis of R^3 is fixed. Show a basis of each eigenspace and (if it exists) a diagonal matrix simil..."}, {"id": "q-may26-1", "paper_id": "may-20-2026", "paper_title": "20 May 2026", "paper_date": "20 May 2026", "q_num": 1, "category": "Subspaces & Bases", "category_id": "cat-subspaces", "raw_latex": "Consider the subspace $W$ of $\\mathbb{R}^{4}$ generated by the vectors:\n\n$$v_{1}=(2,2,-5,-4), \\quad v_{2}=(0,1,0,1), \\quad v_{3}=\\left(3,7,-\\frac{15}{2},-13\\right)$$\n\n   ●   Determine a basis $B$ of $W = \\langle v_{1}, v_{2}, v_{3} \\rangle$.\n   ●   Compute the components of the vector $7v_{3} + (0,-1,0,-1)$ with respect to the chosen basis.\n   ●   Decide whether the following statement is true or false: \"For every $k \\in \\mathbb{R}$, the subspace $\\langle\n       v_{2}-kv_{3} \\rangle$ is contained in $W$\".\n   ●   If possible, define a non-zero homomorphism $g: \\mathbb{R}^{3} \\rightarrow W$ (specifying the image of a generic\n       triple $(x_{1}, x_{2}, x_{3})$ under $g$) such that $\\dim(\\operatorname{Ker} g) = 2$.", "human_html": "<p>Consider the subspace $W$ of $\\mathbb{R}^{4}$ generated by the vectors:</p>\n<div class=\"display-math\">$$v_{1}=(2,2,-5,-4), \\quad v_{2}=(0,1,0,1), \\quad v_{3}=\\left(3,7,-\\frac{15}{2},-13\\right)$$</div>\n<ul class=\"bullet-list\">\n<li>Determine a basis $B$ of $W = \\langle v_{1}, v_{2}, v_{3} \\rangle$.</li>\n<li>Compute the components of the vector $7v_{3} + (0,-1,0,-1)$ with respect to the chosen basis.</li>\n<li>Decide whether the following statement is true or false: \"For every $k \\in \\mathbb{R}$, the subspace $\\langle v_{2}-kv_{3} \\rangle$ is contained in $W$\".</li>\n<li>If possible, define a non-zero homomorphism $g: \\mathbb{R}^{3} \\rightarrow W$ (specifying the image of a generic triple $(x_{1}, x_{2}, x_{3})$ under $g$) such that $\\dim(\\operatorname{Ker} g) = 2$.</li>\n</ul>", "plain_text": "Consider the subspace W of R4 generated by the vectors:\n\nv_1=(2,2,-5,-4), v_2=(0,1,0,1), v_3=left(3,7,-(15/2),-13right)\n\n ● Determine a basis B of W = < v_1, v_2, v_3 >.\n ● Compute the components of the vector 7v_3 + (0,-1,0,-1) with respect to the chosen basis.\n ● Decide whether the following statement is true or false: \"For every k in R, the subspace <\n v_2-kv_3 > is contained in W\".\n ● If possible, define a non-zero homomorphism g: R3 -> W (specifying the image of a generic\n triple (x_1, x_2, x_3) under g) such that dim(Ker g) = 2.", "unicode_text": "Consider the subspace W of ℝ^{4} generated by the vectors:\n\nv_{1}=(2,2,-5,-4), v_{2}=(0,1,0,1), v_{3}=left(3,7,-(15/2),-13right)\n\n ● Determine a basis B of W = ⟨ v_{1}, v_{2}, v_{3} ⟩.\n ● Compute the components of the vector 7v_{3} + (0,-1,0,-1) with respect to the chosen basis.\n ● Decide whether the following statement is true or false: \"For every k ∈ ℝ, the subspace ⟨\n v_{2}-kv_{3} ⟩ is contained in W\".\n ● If possible, define a non-zero homomorphism g: ℝ^{3} → W (specifying the image of a generic\n triple (x_{1}, x_{2}, x_{3}) under g) such that dim(Ker g) = 2.", "search_query": "Consider the subspace W of R4 generated by the vectors: v_1=(2,2,-5,-4), v_2=(0,1,0,1), v_3=left(3,7,-(15/2),-13right) ● Determine a basis B of W = < v_1, v_2, v_3 >. ● Compute the components of the vector 7v_3 + (0,-..."}, {"id": "q-may26-2", "paper_id": "may-20-2026", "paper_title": "20 May 2026", "paper_date": "20 May 2026", "q_num": 2, "category": "Linear Systems & Matrices", "category_id": "cat-systems", "raw_latex": "Depending on the parameter $a$, solve the linear system:\n\n$$\\begin{cases} ax - 5y = -2\\sqrt{5} \\\\ x - ay = -2 \\end{cases}$$\n\n    ●   For which values of $a$ can the second equation represent the equation of a line in the plane?\n    ●   For which values of $a$ can the first equation represent the equation of a plane in space?", "human_html": "<p>Depending on the parameter $a$, solve the linear system:</p>\n<div class=\"display-math\">$$\\begin{cases} ax - 5y = -2\\sqrt{5} \\\\ x - ay = -2 \\end{cases}$$</div>\n<ul class=\"bullet-list\">\n<li>For which values of $a$ can the second equation represent the equation of a line in the plane?</li>\n<li>For which values of $a$ can the first equation represent the equation of a plane in space?</li>\n</ul>", "plain_text": "Depending on the parameter a, solve the linear system:\n\n ax - 5y = -2sqrt(5) ; x - ay = -2 \n\n ● For which values of a can the second equation represent the equation of a line in the plane?\n ● For which values of a can the first equation represent the equation of a plane in space?", "unicode_text": "Depending on the parameter a, solve the linear system:\n\n{ ax - 5y = -2√(5) ; x - ay = -2 }\n\n ● For which values of a can the second equation represent the equation of a line in the plane?\n ● For which values of a can the first equation represent the equation of a plane in space?", "search_query": "Depending on the parameter a, solve the linear system: ax - 5y = -2sqrt(5) ; x - ay = -2 ● For which values of a can the second equation represent the equation of a line in the plane? ● For which values of a can the f..."}, {"id": "q-may26-3", "paper_id": "may-20-2026", "paper_title": "20 May 2026", "paper_date": "20 May 2026", "q_num": 3, "category": "Euclidean Geometry", "category_id": "cat-geometry", "raw_latex": "Fixed a coordinate system $(O, [\\mathbf{i}, \\mathbf{j}])$ in the Euclidean plane such that $\\widehat{\\mathbf{i}\\mathbf{j}}\n= \\pi/3$ and $\\vert{}\\mathbf{i}\\vert{} = \\vert{}\\mathbf{j}\\vert{} = 1$, draw the line $r: 3x - y - 1 = 0$ and find the\ncomponents of a vector orthogonal to $r$.", "human_html": "<p>Fixed a coordinate system $(O, [\\mathbf{i}, \\mathbf{j}])$ in the Euclidean plane such that $\\widehat{\\mathbf{i}\\mathbf{j}} = \\pi/3$ and $\\vert{}\\mathbf{i}\\vert{} = \\vert{}\\mathbf{j}\\vert{} = 1$, draw the line $r: 3x - y - 1 = 0$ and find the components of a vector orthogonal to $r$.</p>", "plain_text": "Fixed a coordinate system (O, [i, j]) in the Euclidean plane such that widehatij\n= pi/3 and |i| = |j| = 1, draw the line r: 3x - y - 1 = 0 and find the\ncomponents of a vector orthogonal to r.", "unicode_text": "Fixed a coordinate system (O, [i, j]) in the Euclidean plane such that widehat{ij}\n= π/3 and |i| = |j| = 1, draw the line r: 3x - y - 1 = 0 and find the\ncomponents of a vector orthogonal to r.", "search_query": "Fixed a coordinate system (O, [i, j]) in the Euclidean plane such that widehatij = pi/3 and |i| = |j| = 1, draw the line r: 3x - y - 1 = 0 and find the components of a vector orthogonal to r."}, {"id": "q-may26-4", "paper_id": "may-20-2026", "paper_title": "20 May 2026", "paper_date": "20 May 2026", "q_num": 4, "category": "Planes & Lines", "category_id": "cat-planes-lines", "raw_latex": "Fix an orthonormal coordinate system in Euclidean space. Exhibit the Cartesian equation of a plane $\\pi$ parallel to\n$\\mathbf{v} = \\mathbf{i} + \\mathbf{j} - 5\\mathbf{k}$, and the equation of a plane $\\pi'$ orthogonal to $\\mathbf{v}$. Then\ndetermine the components of a unit vector parallel to the line $r = \\pi \\cap \\pi'$.", "human_html": "<p>Fix an orthonormal coordinate system in Euclidean space. Exhibit the Cartesian equation of a plane $\\pi$ parallel to $\\mathbf{v} = \\mathbf{i} + \\mathbf{j} - 5\\mathbf{k}$, and the equation of a plane $\\pi'$ orthogonal to $\\mathbf{v}$. Then determine the components of a unit vector parallel to the line $r = \\pi \\cap \\pi'$.</p>", "plain_text": "Fix an orthonormal coordinate system in Euclidean space. Exhibit the Cartesian equation of a plane pi parallel to\nv = i + j - 5k, and the equation of a plane pi' orthogonal to v. Then\ndetermine the components of a unit vector parallel to the line r = pi intersect pi'.", "unicode_text": "Fix an orthonormal coordinate system in Euclidean space. Exhibit the Cartesian equation of a plane π parallel to\nmathbf{v} = i + j - 5k, and the equation of a plane π' orthogonal to mathbf{v}. Then\ndetermine the components of a unit vector parallel to the line r = π ∩ π'.", "search_query": "Fix an orthonormal coordinate system in Euclidean space. Exhibit the Cartesian equation of a plane pi parallel to v = i + j - 5k, and the equation of a plane pi' orthogonal to v. Then determine the components of a uni..."}, {"id": "q-may26-5", "paper_id": "may-20-2026", "paper_title": "20 May 2026", "paper_date": "20 May 2026", "q_num": 5, "category": "Linear Maps & Eigenvalues", "category_id": "cat-maps-eigenvalues", "raw_latex": "Consider the homomorphism:\n\n$$f: (x, y, z) \\in \\mathbb{R}^{3} \\mapsto (3x - 3z, 2y, 2x - 2z) \\in \\mathbb{R}^{3}$$\n\n    ●   After establishing whether $f$ is an isomorphism and whether it is diagonalizable, determine two distinct matrices\n        that cannot be associated with $f$.\n    ●   Explain why $(2026, 5, 20)$ is not an eigenvector.", "human_html": "<p>Consider the homomorphism:</p>\n<div class=\"display-math\">$$f: (x, y, z) \\in \\mathbb{R}^{3} \\mapsto (3x - 3z, 2y, 2x - 2z) \\in \\mathbb{R}^{3}$$</div>\n<ul class=\"bullet-list\">\n<li>After establishing whether $f$ is an isomorphism and whether it is diagonalizable, determine two distinct matrices that cannot be associated with $f$.</li>\n<li>Explain why $(2026, 5, 20)$ is not an eigenvector.</li>\n</ul>", "plain_text": "Consider the homomorphism:\n\nf: (x, y, z) in R3 |-> (3x - 3z, 2y, 2x - 2z) in R3\n\n ● After establishing whether f is an isomorphism and whether it is diagonalizable, determine two distinct matrices\n that cannot be associated with f.\n ● Explain why (2026, 5, 20) is not an eigenvector.", "unicode_text": "Consider the homomorphism:\n\nf: (x, y, z) ∈ ℝ^{3} ↦ (3x - 3z, 2y, 2x - 2z) ∈ ℝ^{3}\n\n ● After establishing whether f is an isomorphism and whether it is diagonalizable, determine two distinct matrices\n that cannot be associated with f.\n ● Explain why (2026, 5, 20) is not an eigenvector.", "search_query": "Consider the homomorphism: f: (x, y, z) in R3 |-> (3x - 3z, 2y, 2x - 2z) in R3 ● After establishing whether f is an isomorphism and whether it is diagonalizable, determine two distinct matrices that cannot be associat..."}, {"id": "q-jun26-1", "paper_id": "jun-19-2026", "paper_title": "19 June 2026", "paper_date": "19 June 2026", "q_num": 1, "category": "Subspaces & Bases", "category_id": "cat-subspaces", "raw_latex": "Consider, for $c \\in \\mathbb{R}$, the matrix:\n\n$$A_{c} = \\begin{pmatrix} -4 & -3 & 1 & c \\\\ -4 & c & 1 & 0 \\\\ -4 & -1 & -c+1 & -c \\end{pmatrix}$$\n\n   ●   (a) For varying $c$, exhibit a basis $B_{c}$ of the subspace $W_{c}$ of $\\mathbb{R}^{4}$ generated by the rows\n       $u_{1}, u_{2}, u_{3}$ of $A_{c}$.\n   ●   (b) For $c \\in \\{0,2\\}$, compute the coordinates of the vector $u_{1} - 2u_{2} - u_{3}$ with respect to the bases\n       found above.\n   ●   (c) Consider the matrix $A_{0}$ obtained by setting $c=0$ in $A_{c}$ and choose a nonzero matrix $B \\in\n       M_{3\\times4}$ proportional to $A_{0}$. Is it true that the subspace $\\langle A_{0}, A_{0}-B \\rangle$ is isomorphic to\n       $\\mathbb{R}^{2}$?\n   ●   (d) Carefully verify the correctness of the algebraic steps supporting the conclusions of this exercise.", "human_html": "<p>Consider, for $c \\in \\mathbb{R}$, the matrix:</p>\n<div class=\"display-math\">$$A_{c} = \\begin{pmatrix} -4 & -3 & 1 & c \\\\ -4 & c & 1 & 0 \\\\ -4 & -1 & -c+1 & -c \\end{pmatrix}$$</div>\n<ul class=\"bullet-list\">\n<li>(a) For varying $c$, exhibit a basis $B_{c}$ of the subspace $W_{c}$ of $\\mathbb{R}^{4}$ generated by the rows $u_{1}, u_{2}, u_{3}$ of $A_{c}$.</li>\n<li>(b) For $c \\in \\{0,2\\}$, compute the coordinates of the vector $u_{1} - 2u_{2} - u_{3}$ with respect to the bases found above.</li>\n<li>(c) Consider the matrix $A_{0}$ obtained by setting $c=0$ in $A_{c}$ and choose a nonzero matrix $B \\in M_{3\\times4}$ proportional to $A_{0}$. Is it true that the subspace $\\langle A_{0}, A_{0}-B \\rangle$ is isomorphic to $\\mathbb{R}^{2}$?</li>\n<li>(d) Carefully verify the correctness of the algebraic steps supporting the conclusions of this exercise.</li>\n</ul>", "plain_text": "Consider, for c in R, the matrix:\n\nA_c = [[-4, -3, 1, c], [-4, c, 1, 0], [-4, -1, -c+1, -c]]\n\n ● (a) For varying c, exhibit a basis B_c of the subspace W_c of R4 generated by the rows\n u_1, u_2, u_3 of A_c.\n ● (b) For c in 0,2, compute the coordinates of the vector u_1 - 2u_2 - u_3 with respect to the bases\n found above.\n ● (c) Consider the matrix A_0 obtained by setting c=0 in A_c and choose a nonzero matrix B in\n M_3times4 proportional to A_0. Is it true that the subspace < A_0, A_0-B > is isomorphic to\n R2?\n ● (d) Carefully verify the correctness of the algebraic steps supporting the conclusions of this exercise.", "unicode_text": "Consider, for c ∈ ℝ, the matrix:\n\nA_{c} = [\n [-4, -3, 1, c]\n [-4, c, 1, 0]\n [-4, -1, -c+1, -c]\n]\n\n ● (a) For varying c, exhibit a basis B_{c} of the subspace W_{c} of ℝ^{4} generated by the rows\n u_{1}, u_{2}, u_{3} of A_{c}.\n ● (b) For c ∈ {0,2}, compute the coordinates of the vector u_{1} - 2u_{2} - u_{3} with respect to the bases\n found above.\n ● (c) Consider the matrix A_{0} obtained by setting c=0 in A_{c} and choose a nonzero matrix B ∈\n M_{3times4} proportional to A_{0}. Is it true that the subspace ⟨ A_{0}, A_{0}-B ⟩ is isomorphic to\n ℝ^{2}?\n ● (d) Carefully verify the correctness of the algebraic steps supporting the conclusions of this exercise.", "search_query": "Consider, for c in R, the matrix: A_c = [[-4, -3, 1, c], [-4, c, 1, 0], [-4, -1, -c+1, -c]] ● (a) For varying c, exhibit a basis B_c of the subspace W_c of R4 generated by the rows u_1, u_2, u_3 of A_c. ● (b) For c in..."}, {"id": "q-jun26-2", "paper_id": "jun-19-2026", "paper_title": "19 June 2026", "paper_date": "19 June 2026", "q_num": 2, "category": "Linear Systems & Matrices", "category_id": "cat-systems", "raw_latex": "Choose arbitrarily a matrix $S \\in M_{2\\times2}$ of rank 2 (different from the identity matrix), and then determine a\nmatrix $T$ (different from the identity matrix) among those that make the system:\n\n$$S \\cdot T \\cdot \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} -1 \\\\ 0 \\end{pmatrix}$$\n\na Cramer system; finally, solve it.", "human_html": "<p>Choose arbitrarily a matrix $S \\in M_{2\\times2}$ of rank 2 (different from the identity matrix), and then determine a matrix $T$ (different from the identity matrix) among those that make the system:</p>\n<div class=\"display-math\">$$S \\cdot T \\cdot \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} -1 \\\\ 0 \\end{pmatrix}$$</div>\n<p>a Cramer system; finally, solve it.</p>", "plain_text": "Choose arbitrarily a matrix S in M_2times2 of rank 2 (different from the identity matrix), and then determine a\nmatrix T (different from the identity matrix) among those that make the system:\n\nS * T * [[x], [y]] = [[-1], [0]]\n\na Cramer system; finally, solve it.", "unicode_text": "Choose arbitrarily a matrix S ∈ M_{2times2} of rank 2 (different from the identity matrix), and then determine a\nmatrix T (different from the identity matrix) among those that make the system:\n\nS · T · [\n [x]\n [y]\n] = [\n [-1]\n [0]\n]\n\na Cramer system; finally, solve it.", "search_query": "Choose arbitrarily a matrix S in M_2times2 of rank 2 (different from the identity matrix), and then determine a matrix T (different from the identity matrix) among those that make the system: S * T * [[x], [y]] = [[-1..."}, {"id": "q-jun26-3", "paper_id": "jun-19-2026", "paper_title": "19 June 2026", "paper_date": "19 June 2026", "q_num": 3, "category": "Planes & Lines", "category_id": "cat-planes-lines", "raw_latex": "Given a Cartesian coordinate system in the Euclidean space, determine the equation of a plane $\\pi$ passing through the\npoints $A = (3, -2, 1)$ and $B = (-1, -2, -3)$. Is the chosen plane $\\pi$ parallel or orthogonal to one of the coordinate axes?", "human_html": "<p>Given a Cartesian coordinate system in the Euclidean space, determine the equation of a plane $\\pi$ passing through the points $A = (3, -2, 1)$ and $B = (-1, -2, -3)$. Is the chosen plane $\\pi$ parallel or orthogonal to one of the coordinate axes?</p>", "plain_text": "Given a Cartesian coordinate system in the Euclidean space, determine the equation of a plane pi passing through the\npoints A = (3, -2, 1) and B = (-1, -2, -3). Is the chosen plane pi parallel or orthogonal to one of the coordinate axes?", "unicode_text": "Given a Cartesian coordinate system in the Euclidean space, determine the equation of a plane π passing through the\npoints A = (3, -2, 1) and B = (-1, -2, -3). Is the chosen plane π parallel or orthogonal to one of the coordinate axes?", "search_query": "Given a Cartesian coordinate system in the Euclidean space, determine the equation of a plane pi passing through the points A = (3, -2, 1) and B = (-1, -2, -3). Is the chosen plane pi parallel or orthogonal to one of ..."}, {"id": "q-jun26-4", "paper_id": "jun-19-2026", "paper_title": "19 June 2026", "paper_date": "19 June 2026", "q_num": 4, "category": "Euclidean Geometry", "category_id": "cat-geometry", "raw_latex": "Given an orthonormal coordinate system $(O, [\\vec{i}, \\vec{j}])$ in the plane, determine whether the line passing through\nthe points $S = (-5, -2)$ and $T = (-3, -1)$ is orthogonal to the line $r$ with equation:\n\n$$4x + 2y - 3 = 0$$\n\nThen find the components of a vector parallel to $\\vec{ST}$ with length $2026$ that forms an obtuse angle with\n$2\\vec{j}$.", "human_html": "<p>Given an orthonormal coordinate system $(O, [\\vec{i}, \\vec{j}])$ in the plane, determine whether the line passing through the points $S = (-5, -2)$ and $T = (-3, -1)$ is orthogonal to the line $r$ with equation:</p>\n<div class=\"display-math\">$$4x + 2y - 3 = 0$$</div>\n<p>Then find the components of a vector parallel to $\\vec{ST}$ with length $2026$ that forms an obtuse angle with $2\\vec{j}$.</p>", "plain_text": "Given an orthonormal coordinate system (O, [i, j]) in the plane, determine whether the line passing through\nthe points S = (-5, -2) and T = (-3, -1) is orthogonal to the line r with equation:\n\n4x + 2y - 3 = 0\n\nThen find the components of a vector parallel to ST with length 2026 that forms an obtuse angle with\n2j.", "unicode_text": "Given an orthonormal coordinate system (O, [i, j]) in the plane, determine whether the line passing through\nthe points S = (-5, -2) and T = (-3, -1) is orthogonal to the line r with equation:\n\n4x + 2y - 3 = 0\n\nThen find the components of a vector parallel to vec{ST} with length 2026 that forms an obtuse angle with\n2j.", "search_query": "Given an orthonormal coordinate system (O, [i, j]) in the plane, determine whether the line passing through the points S = (-5, -2) and T = (-3, -1) is orthogonal to the line r with equation: 4x + 2y - 3 = 0 Then find..."}, {"id": "q-jun26-5", "paper_id": "jun-19-2026", "paper_title": "19 June 2026", "paper_date": "19 June 2026", "q_num": 5, "category": "Linear Maps & Eigenvalues", "category_id": "cat-maps-eigenvalues", "raw_latex": "After showing that the homomorphism:\n\n$$f : (x_{1}, x_{2}, x_{3}) \\in \\mathbb{R}^{3} \\mapsto (x_{1} + 3x_{3}, \\, 6x_{2}, \\, -2x_{1} - 6x_{3}) \\in \\mathbb{R}^{3}$$\n\nis not surjective, exhibit a basis of $\\mathbb{R}^{3}$ consisting of eigenvectors and a matrix associated with $f$ with\nrespect to such basis.", "human_html": "<p>After showing that the homomorphism:</p>\n<div class=\"display-math\">$$f : (x_{1}, x_{2}, x_{3}) \\in \\mathbb{R}^{3} \\mapsto (x_{1} + 3x_{3}, \\, 6x_{2}, \\, -2x_{1} - 6x_{3}) \\in \\mathbb{R}^{3}$$</div>\n<p>is not surjective, exhibit a basis of $\\mathbb{R}^{3}$ consisting of eigenvectors and a matrix associated with $f$ with respect to such basis.</p>", "plain_text": "After showing that the homomorphism:\n\nf : (x_1, x_2, x_3) in R3 |-> (x_1 + 3x_3, , 6x_2, , -2x_1 - 6x_3) in R3\n\nis not surjective, exhibit a basis of R3 consisting of eigenvectors and a matrix associated with f with\nrespect to such basis.", "unicode_text": "After showing that the homomorphism:\n\nf : (x_{1}, x_{2}, x_{3}) ∈ ℝ^{3} ↦ (x_{1} + 3x_{3}, , 6x_{2}, , -2x_{1} - 6x_{3}) ∈ ℝ^{3}\n\nis not surjective, exhibit a basis of ℝ^{3} consisting of eigenvectors and a matrix associated with f with\nrespect to such basis.", "search_query": "After showing that the homomorphism: f : (x_1, x_2, x_3) in R3 |-> (x_1 + 3x_3, , 6x_2, , -2x_1 - 6x_3) in R3 is not surjective, exhibit a basis of R3 consisting of eigenvectors and a matrix associated with f with res..."}, {"id": "q-jun26-6", "paper_id": "jun-19-2026", "paper_title": "19 June 2026", "paper_date": "19 June 2026", "q_num": 6, "category": "Conics", "category_id": "cat-conics", "raw_latex": "After classifying the conics of equation:\n\n$$kx^2 + 3y^2 + kxy + x + 6 = 0 \\quad (k \\in \\mathbb{R}),$$\n\nconsider the conic $\\Gamma_{0}$ obtained by setting $k=0$ and provide the equation of a tangent line at one of its real\npoints.", "human_html": "<p>After classifying the conics of equation:</p>\n<div class=\"display-math\">$$kx^2 + 3y^2 + kxy + x + 6 = 0 \\quad (k \\in \\mathbb{R}),$$</div>\n<p>consider the conic $\\Gamma_{0}$ obtained by setting $k=0$ and provide the equation of a tangent line at one of its real points.</p>", "plain_text": "After classifying the conics of equation:\n\nkx^2 + 3y^2 + kxy + x + 6 = 0 (k in R),\n\nconsider the conic Gamma_0 obtained by setting k=0 and provide the equation of a tangent line at one of its real\npoints.", "unicode_text": "After classifying the conics of equation:\n\nkx^2 + 3y^2 + kxy + x + 6 = 0 (k ∈ ℝ),\n\nconsider the conic Gamma_{0} obtained by setting k=0 and provide the equation of a tangent line at one of its real\npoints.", "search_query": "After classifying the conics of equation: kx^2 + 3y^2 + kxy + x + 6 = 0 (k in R), consider the conic Gamma_0 obtained by setting k=0 and provide the equation of a tangent line at one of its real points."}, {"id": "q-jul26-1", "paper_id": "jul-17-2026", "paper_title": "17 July 2026", "paper_date": "17 July 2026", "q_num": 1, "category": "Subspaces & Bases", "category_id": "cat-subspaces", "raw_latex": "For each $c \\in \\mathbb{R}$, determine a basis $\\mathcal{B}_{c}$ of the subspace of $\\mathbb{R}^{4}$:\n\n$$W_{c} = \\langle (0, c+3, 0, c-1), (c, 0, c-3, 0) \\rangle$$\n\nThen determine the values of $c$ satisfying each of the following conditions separately:\n\n   ●   $W_{c}$ is isomorphic to $U = \\{(-b, a-b, 0, 2a-b) \\mid a,b \\in \\mathbb{R}\\}$;\n   ●   The vector $(a_{1}, a_{2}, a_{3}, a_{4})$ belongs to $W_{c}$, where $a_{1}, a_{2}, a_{3},$ and $a_{4}$ are the last\n       four digits of your student identification number.", "human_html": "<p>For each $c \\in \\mathbb{R}$, determine a basis $\\mathcal{B}_{c}$ of the subspace of $\\mathbb{R}^{4}$:</p>\n<div class=\"display-math\">$$W_{c} = \\langle (0, c+3, 0, c-1), (c, 0, c-3, 0) \\rangle$$</div>\n<p>Then determine the values of $c$ satisfying each of the following conditions separately:</p>\n<ul class=\"bullet-list\">\n<li>$W_{c}$ is isomorphic to $U = \\{(-b, a-b, 0, 2a-b) \\mid a,b \\in \\mathbb{R}\\}$;</li>\n<li>The vector $(a_{1}, a_{2}, a_{3}, a_{4})$ belongs to $W_{c}$, where $a_{1}, a_{2}, a_{3},$ and $a_{4}$ are the last four digits of your student identification number.</li>\n</ul>", "plain_text": "For each c in R, determine a basis B_c of the subspace of R4:\n\nW_c = < (0, c+3, 0, c-1), (c, 0, c-3, 0) >\n\nThen determine the values of c satisfying each of the following conditions separately:\n\n ● W_c is isomorphic to U = (-b, a-b, 0, 2a-b) mid a,b in R;\n ● The vector (a_1, a_2, a_3, a_4) belongs to W_c, where a_1, a_2, a_3, and a_4 are the last\n four digits of your student identification number.", "unicode_text": "For each c ∈ ℝ, determine a basis ℬ_{c} of the subspace of ℝ^{4}:\n\nW_{c} = ⟨ (0, c+3, 0, c-1), (c, 0, c-3, 0) ⟩\n\nThen determine the values of c satisfying each of the following conditions separately:\n\n ● W_{c} is isomorphic to U = {(-b, a-b, 0, 2a-b) mid a,b ∈ ℝ};\n ● The vector (a_{1}, a_{2}, a_{3}, a_{4}) belongs to W_{c}, where a_{1}, a_{2}, a_{3}, and a_{4} are the last\n four digits of your student identification number.", "search_query": "For each c in R, determine a basis B_c of the subspace of R4: W_c = < (0, c+3, 0, c-1), (c, 0, c-3, 0) > Then determine the values of c satisfying each of the following conditions separately: ● W_c is isomorphic to U ..."}, {"id": "q-jul26-2", "paper_id": "jul-17-2026", "paper_title": "17 July 2026", "paper_date": "17 July 2026", "q_num": 2, "category": "Linear Systems & Matrices", "category_id": "cat-systems", "raw_latex": "Given the matrix:\n\n$$A = \\begin{pmatrix} 3 & h \\\\ -2 & 1 \\end{pmatrix}$$\n\nDetermine for which values of the parameter $h$ the matrix $A \\cdot A$ can be the coefficient matrix of a Cramer system.\nMoreover, fixing the value of $h$ such that $\\det A$ equals the sum of the digits of your student ID number, solve the\nlinear system:\n\n$$A \\begin{pmatrix} x_{1} \\\\ x_{2} \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$$", "human_html": "<p>Given the matrix:</p>\n<div class=\"display-math\">$$A = \\begin{pmatrix} 3 & h \\\\ -2 & 1 \\end{pmatrix}$$</div>\n<p>Determine for which values of the parameter $h$ the matrix $A \\cdot A$ can be the coefficient matrix of a Cramer system. Moreover, fixing the value of $h$ such that $\\det A$ equals the sum of the digits of your student ID number, solve the linear system:</p>\n<div class=\"display-math\">$$A \\begin{pmatrix} x_{1} \\\\ x_{2} \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$$</div>", "plain_text": "Given the matrix:\n\nA = [[3, h], [-2, 1]]\n\nDetermine for which values of the parameter h the matrix A * A can be the coefficient matrix of a Cramer system.\nMoreover, fixing the value of h such that det A equals the sum of the digits of your student ID number, solve the\nlinear system:\n\nA [[x_1], [x_2]] = [[1], [0]]", "unicode_text": "Given the matrix:\n\nA = [\n [3, h]\n [-2, 1]\n]\n\nDetermine for which values of the parameter h the matrix A · A can be the coefficient matrix of a Cramer system.\nMoreover, fixing the value of h such that det A equals the sum of the digits of your student ID number, solve the\nlinear system:\n\nA [\n [x_{1}]\n [x_{2}]\n] = [\n [1]\n [0]\n]", "search_query": "Given the matrix: A = [[3, h], [-2, 1]] Determine for which values of the parameter h the matrix A * A can be the coefficient matrix of a Cramer system. Moreover, fixing the value of h such that det A equals the sum o..."}, {"id": "q-jul26-3", "paper_id": "jul-17-2026", "paper_title": "17 July 2026", "paper_date": "17 July 2026", "q_num": 3, "category": "Euclidean Geometry", "category_id": "cat-geometry", "raw_latex": "In an ORTHOGONAL coordinate system of the plane $(O, \\{\\mathbf{i}, \\mathbf{j}\\})$ such that $\\Vert{}\\mathbf{i}\\Vert{} =\n3$ and $\\Vert{}\\mathbf{j}\\Vert{} = 1$, draw the line $r: x - 2y - 2 = 0$, determine two vectors parallel to $r$ with opposite\norientations, and indicate which one has the greater magnitude.", "human_html": "<p>In an ORTHOGONAL coordinate system of the plane $(O, \\{\\mathbf{i}, \\mathbf{j}\\})$ such that $\\Vert{}\\mathbf{i}\\Vert{} = 3$ and $\\Vert{}\\mathbf{j}\\Vert{} = 1$, draw the line $r: x - 2y - 2 = 0$, determine two vectors parallel to $r$ with opposite orientations, and indicate which one has the greater magnitude.</p>", "plain_text": "In an ORTHOGONAL coordinate system of the plane (O, i, j) such that ||i|| =\n3 and ||j|| = 1, draw the line r: x - 2y - 2 = 0, determine two vectors parallel to r with opposite\norientations, and indicate which one has the greater magnitude.", "unicode_text": "In an ORTHOGONAL coordinate system of the plane (O, {i, j}) such that ‖i‖ =\n3 and ‖j‖ = 1, draw the line r: x - 2y - 2 = 0, determine two vectors parallel to r with opposite\norientations, and indicate which one has the greater magnitude.", "search_query": "In an ORTHOGONAL coordinate system of the plane (O, i, j) such that ||i|| = 3 and ||j|| = 1, draw the line r: x - 2y - 2 = 0, determine two vectors parallel to r with opposite orientations, and indicate which one has ..."}, {"id": "q-jul26-4", "paper_id": "jul-17-2026", "paper_title": "17 July 2026", "paper_date": "17 July 2026", "q_num": 4, "category": "Planes & Lines", "category_id": "cat-planes-lines", "raw_latex": "In a fixed coordinate system in space, consider the line $r_{AB}$ passing through $A = (2, 3, -1)$ and $B = (-2, 3, 1)$.\nDetermine the Cartesian equations of a line $s$ passing through the origin and parallel to $r_{AB}$ and, if it exists, the\nequation of a plane containing both $s$ and $r_{AB}$.", "human_html": "<p>In a fixed coordinate system in space, consider the line $r_{AB}$ passing through $A = (2, 3, -1)$ and $B = (-2, 3, 1)$. Determine the Cartesian equations of a line $s$ passing through the origin and parallel to $r_{AB}$ and, if it exists, the equation of a plane containing both $s$ and $r_{AB}$.</p>", "plain_text": "In a fixed coordinate system in space, consider the line r_AB passing through A = (2, 3, -1) and B = (-2, 3, 1).\nDetermine the Cartesian equations of a line s passing through the origin and parallel to r_AB and, if it exists, the\nequation of a plane containing both s and r_AB.", "unicode_text": "In a fixed coordinate system in space, consider the line r_{AB} passing through A = (2, 3, -1) and B = (-2, 3, 1).\nDetermine the Cartesian equations of a line s passing through the origin and parallel to r_{AB} and, if it exists, the\nequation of a plane containing both s and r_{AB}.", "search_query": "In a fixed coordinate system in space, consider the line r_AB passing through A = (2, 3, -1) and B = (-2, 3, 1). Determine the Cartesian equations of a line s passing through the origin and parallel to r_AB and, if it..."}, {"id": "q-jul26-5", "paper_id": "jul-17-2026", "paper_title": "17 July 2026", "paper_date": "17 July 2026", "q_num": 5, "category": "Linear Maps & Eigenvalues", "category_id": "cat-maps-eigenvalues", "raw_latex": "Let $f: \\mathbb{R}^{3} \\longrightarrow \\mathbb{R}^{3}$ be the linear map such that:\n\n$$(-1, 0, 0) \\mapsto (2, 2, 2), \\quad (0, -1, 0) \\mapsto (-2, -2, -2), \\quad (0, 0, -2) \\mapsto (0, 0, 3)$$\n\n   ●   Determine the image of a generic vector $(a, b, c) \\in \\mathbb{R}^{3}$ under $f$;\n   ●   Determine whether $\\operatorname{Ker}(f)$ and $\\operatorname{Im}(f)$ are isomorphic;\n\n   ●   Is $\\operatorname{Ker}(f)$ an eigenspace of $f$?", "human_html": "<p>Let $f: \\mathbb{R}^{3} \\longrightarrow \\mathbb{R}^{3}$ be the linear map such that:</p>\n<div class=\"display-math\">$$(-1, 0, 0) \\mapsto (2, 2, 2), \\quad (0, -1, 0) \\mapsto (-2, -2, -2), \\quad (0, 0, -2) \\mapsto (0, 0, 3)$$</div>\n<ul class=\"bullet-list\">\n<li>Determine the image of a generic vector $(a, b, c) \\in \\mathbb{R}^{3}$ under $f$;</li>\n<li>Determine whether $\\operatorname{Ker}(f)$ and $\\operatorname{Im}(f)$ are isomorphic;</li>\n<li>Is $\\operatorname{Ker}(f)$ an eigenspace of $f$?</li>\n</ul>", "plain_text": "Let f: R3 -> R3 be the linear map such that:\n\n(-1, 0, 0) |-> (2, 2, 2), (0, -1, 0) |-> (-2, -2, -2), (0, 0, -2) |-> (0, 0, 3)\n\n ● Determine the image of a generic vector (a, b, c) in R3 under f;\n ● Determine whether Ker(f) and Im(f) are isomorphic;\n\n ● Is Ker(f) an eigenspace of f?", "unicode_text": "Let f: ℝ^{3} ⟶ ℝ^{3} be the linear map such that:\n\n(-1, 0, 0) ↦ (2, 2, 2), (0, -1, 0) ↦ (-2, -2, -2), (0, 0, -2) ↦ (0, 0, 3)\n\n ● Determine the image of a generic vector (a, b, c) ∈ ℝ^{3} under f;\n ● Determine whether Ker(f) and Im(f) are isomorphic;\n\n ● Is Ker(f) an eigenspace of f?", "search_query": "Let f: R3 -> R3 be the linear map such that: (-1, 0, 0) |-> (2, 2, 2), (0, -1, 0) |-> (-2, -2, -2), (0, 0, -2) |-> (0, 0, 3) ● Determine the image of a generic vector (a, b, c) in R3 under f; ● Determine whether Ker(f..."}, {"id": "q-jul26-6", "paper_id": "jul-17-2026", "paper_title": "17 July 2026", "paper_date": "17 July 2026", "q_num": 6, "category": "Conics", "category_id": "cat-conics", "raw_latex": "Among the conics $\\Gamma_{k}$ with equation:\n\n$$3x^{2} + kxy + 3y^{2} - 5x = 0$$\n\ndetermine the one passing through the point $P = (-2, -2)$ and classify it.", "human_html": "<p>Among the conics $\\Gamma_{k}$ with equation:</p>\n<div class=\"display-math\">$$3x^{2} + kxy + 3y^{2} - 5x = 0$$</div>\n<p>determine the one passing through the point $P = (-2, -2)$ and classify it.</p>", "plain_text": "Among the conics Gamma_k with equation:\n\n3x^2 + kxy + 3y^2 - 5x = 0\n\ndetermine the one passing through the point P = (-2, -2) and classify it.", "unicode_text": "Among the conics Gamma_{k} with equation:\n\n3x^{2} + kxy + 3y^{2} - 5x = 0\n\ndetermine the one passing through the point P = (-2, -2) and classify it.", "search_query": "Among the conics Gamma_k with equation: 3x^2 + kxy + 3y^2 - 5x = 0 determine the one passing through the point P = (-2, -2) and classify it."}];
+
+  // 2. STATE
+  let currentSort = 'paper';       // 'paper' | 'category'
+  let currentFormat = 'latex';     // 'latex' (default) | 'plain' | 'human'
+  let currentTheme = 'dark';       // 'dark' (default) | 'light'
+
+  // DOM node cache for zero-flicker instant sort reordering
+  let paperSectionsMap = new Map();     // paper_id -> section element
+  let categorySectionsMap = new Map();  // category_id -> section element
+  let questionCardElements = new Map(); // question_id -> li element
+
+  // 3. INITIALIZATION
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('la_deck_theme') || 'dark';
+    setTheme(savedTheme);
+
+    // Build the DOM structures
+    initDOMStructures();
+
+    // Initial render in default paper sort mode
+    applySortDisplay();
+    updateFormatButtons();
+
+    // Render drawer nav
+    renderDrawerNav();
+
+    // Initial MathJax Typeset on the entire container
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([document.getElementById('deckContent')]).catch(err => console.error('MathJax error:', err));
+    }
+
+    // Check URL hash
+    handleHashNavigation();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashNavigation);
+  });
+
+  // 4. THEME CONTROLLER
+  function setTheme(t) {
+    currentTheme = t;
+    const htmlEl = document.documentElement;
+    htmlEl.classList.remove('dark', 'light');
+    htmlEl.classList.add(t);
+    const icon = document.querySelector('.theme-icon');
+    if (icon) icon.textContent = t === 'dark' ? '☾' : '☀';
+    localStorage.setItem('la_deck_theme', t);
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  }
+
+  // 5. DOM STRUCTURE INITIALIZATION (Build once, move nodes on sort)
+  function initDOMStructures() {
+    // 1. Create all question <li> elements once
+    QUESTIONS_DATA.forEach((q, idx) => {
+      const card = createQuestionCard(q, idx);
+      questionCardElements.set(q.id, card);
+    });
+
+    // 2. Create Paper Section wrappers
+    PAPERS_DATA.forEach(paper => {
+      const sec = document.createElement('section');
+      sec.className = 'topic-section';
+      sec.id = paper.id;
+      const paperQs = QUESTIONS_DATA.filter(q => q.paper_id === paper.id);
+
+      sec.innerHTML = `
+        <div class="section-header">
+          <div class="section-meta-line">
+            <span class="badge">${paper.badge}</span>
+            <span>${paperQs.length} questions</span>
+            <span>·</span>
+            <a href="#${paper.id}" class="section-anchor-link">#${paper.id}</a>
+          </div>
+          <h2>${paper.date}</h2>
+          <p class="section-instruction">${paper.desc}</p>
+        </div>
+        <ol class="prob-list"></ol>
+      `;
+      paperSectionsMap.set(paper.id, sec);
+    });
+
+    // 3. Create Category Section wrappers
+    CATEGORIES_DATA.forEach(cat => {
+      const sec = document.createElement('section');
+      sec.className = 'topic-section';
+      sec.id = cat.id;
+      const catQs = QUESTIONS_DATA.filter(q => q.category === cat.key);
+
+      sec.innerHTML = `
+        <div class="section-header">
+          <div class="section-meta-line">
+            <span class="badge">${cat.icon} Topic Category</span>
+            <span>${catQs.length} questions across all papers</span>
+            <span>·</span>
+            <a href="#${cat.id}" class="section-anchor-link">#${cat.id}</a>
+          </div>
+          <h2>${cat.title}</h2>
+          <p class="section-instruction">${cat.desc}</p>
+        </div>
+        <ol class="prob-list"></ol>
+      `;
+      categorySectionsMap.set(cat.id, sec);
+    });
+  }
+
+  // 6. SORTING SYSTEM: INSTANT ZERO-FLICKER NODE MOVING
+  function setSortMode(mode) {
+    if (currentSort === mode) return;
+    currentSort = mode;
+
+    // Update active sort button
+    document.querySelectorAll('.control-deck [data-sort]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.sort === mode);
+    });
+
+    applySortDisplay();
+
+    // Smooth scroll to top of content
+    const contentEl = document.getElementById('deckContent');
+    if (contentEl) {
+      const topPos = contentEl.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({ top: topPos, behavior: 'smooth' });
+    }
+  }
+
+  function applySortDisplay() {
+    const container = document.getElementById('deckContent');
+    const pillsNav = document.getElementById('smartNavPills');
+    if (!container || !pillsNav) return;
+
+    container.innerHTML = '';
+    pillsNav.innerHTML = '';
+
+    if (currentSort === 'paper') {
+      // 1. Re-populate quick navigation pills
+      PAPERS_DATA.forEach(paper => {
+        const pill = document.createElement('a');
+        pill.className = 'nav-chip';
+        pill.href = '#' + paper.id;
+        pill.innerHTML = `<span>📅</span> ${paper.date}`;
+        pillsNav.appendChild(pill);
+      });
+
+      // 2. Move existing <li> nodes into paper sections
+      PAPERS_DATA.forEach(paper => {
+        const sec = paperSectionsMap.get(paper.id);
+        const ol = sec.querySelector('.prob-list');
+        ol.innerHTML = ''; // Clear ol container
+        const paperQs = QUESTIONS_DATA.filter(q => q.paper_id === paper.id);
+        paperQs.forEach(q => {
+          const card = questionCardElements.get(q.id);
+          if (card) ol.appendChild(card); // MOVES the node, preserving MathJax & event handlers
+        });
+        container.appendChild(sec);
+      });
+
+    } else {
+      // 1. Re-populate quick navigation pills
+      CATEGORIES_DATA.forEach(cat => {
+        const pill = document.createElement('a');
+        pill.className = 'nav-chip';
+        pill.href = '#' + cat.id;
+        pill.innerHTML = `<span>${cat.icon}</span> ${cat.title}`;
+        pillsNav.appendChild(pill);
+      });
+
+      // 2. Move existing <li> nodes into category sections
+      CATEGORIES_DATA.forEach(cat => {
+        const sec = categorySectionsMap.get(cat.id);
+        const ol = sec.querySelector('.prob-list');
+        ol.innerHTML = ''; // Clear ol container
+        const catQs = QUESTIONS_DATA.filter(q => q.category === cat.key);
+        catQs.forEach(q => {
+          const card = questionCardElements.get(q.id);
+          if (card) ol.appendChild(card); // MOVES the node, preserving MathJax & event handlers
+        });
+        container.appendChild(sec);
+      });
+    }
+  }
+
+  // 7. THREE-FORMAT SELECTION (Affects Buttons & Display View)
+  function setGlobalFormat(fmt) {
+    currentFormat = fmt;
+
+    // Update active format button
+    document.querySelectorAll('.control-deck [data-format]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.format === fmt);
+    });
+
+    // Update all question cards display view
+    document.querySelectorAll('.prob-item').forEach(card => {
+      card.setAttribute('data-view', fmt);
+      card.querySelectorAll('.pv-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === fmt);
+      });
+    });
+
+    // Update format badges on buttons
+    updateFormatButtons();
+  }
+
+  function setCardView(btn, view) {
+    const card = btn.closest('.prob-item');
+    if (!card) return;
+    card.setAttribute('data-view', view);
+    card.querySelectorAll('.pv-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.view === view);
+    });
+  }
+
+  function updateFormatButtons() {
+    const badgeText = currentFormat.toUpperCase();
+    document.querySelectorAll('.btn-format-badge').forEach(badge => {
+      badge.textContent = badgeText;
+    });
+  }
+
+  // Create individual question card DOM
+  function createQuestionCard(q, idx) {
+    const li = document.createElement('li');
+    li.className = 'prob-item';
+    li.id = q.id;
+    li.dataset.paper = q.paper_id;
+    li.dataset.category = q.category;
+    li.setAttribute('data-view', currentFormat);
+
+    const escAttr = (str) => (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    li.innerHTML = `
+      <div class="prob-num-wrap">
+        <div class="prob-num"></div>
+        <a href="#${q.id}" class="prob-anchor" title="Direct Anchor Link">#${q.q_num}</a>
+      </div>
+      <div class="prob-content">
+        <div class="prob-header-meta">
+          <div class="prob-tags">
+            <span class="prob-tag category">${q.category}</span>
+            <span class="prob-tag">${q.paper_date} · Q${q.q_num}</span>
+          </div>
+          <div class="prob-view-switcher" role="tablist" aria-label="Question View">
+            <button class="pv-btn ${currentFormat === 'human' ? 'active' : ''}" data-view="human" onclick="setCardView(this, 'human')" title="Rendered Exam Typography">Rendered</button>
+            <button class="pv-btn ${currentFormat === 'latex' ? 'active' : ''}" data-view="latex" onclick="setCardView(this, 'latex')" title="LaTeX Source Code">LaTeX</button>
+            <button class="pv-btn ${currentFormat === 'plain' ? 'active' : ''}" data-view="plain" onclick="setCardView(this, 'plain')" title="Plain ASCII Text">Plain</button>
+          </div>
+        </div>
+
+        <!-- 1. Human-Readable Math View (Exam/Book typography) -->
+        <div class="prob-text view-human">
+          ${q.human_html}
+        </div>
+
+        <!-- 2. Raw LaTeX Code View -->
+        <div class="view-latex"><code>${escAttr(q.raw_latex)}</code></div>
+
+        <!-- 3. Clean Plain Text View -->
+        <div class="view-plain"><code>${escAttr(q.plain_text)}</code></div>
+
+        <!-- 4 Action Buttons Quad -->
+        <div class="btn-group">
+          <button class="btn-action copy-btn" onclick="handleCopy(this)"
+                  data-latex="${escAttr(q.raw_latex)}"
+                  data-plain="${escAttr(q.plain_text)}"
+                  data-human="${escAttr(q.unicode_text)}"
+                  aria-label="Copy question in active format">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            <span class="btn-label">COPY</span>
+            <span class="btn-format-badge">${currentFormat.toUpperCase()}</span>
+          </button>
+
+          <button class="btn-action solve-btn" onclick="handleSolve(this)"
+                  data-latex="${escAttr(q.raw_latex)}"
+                  data-plain="${escAttr(q.search_query)}"
+                  data-human="${escAttr(q.search_query)}"
+                  aria-label="Search question on Google">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <span>GOOGLE</span>
+          </button>
+
+          <button class="btn-action perp-btn" onclick="handlePerplexity(this)"
+                  data-latex="${escAttr(q.raw_latex)}"
+                  data-plain="${escAttr(q.search_query)}"
+                  data-human="${escAttr(q.search_query)}"
+                  aria-label="Ask question on Perplexity AI">
+            <svg viewBox="0 0 24 24"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>
+            <span>ASK</span>
+          </button>
+
+          <button class="btn-action brave-btn" onclick="handleBrave(this)"
+                  data-latex="${escAttr(q.raw_latex)}"
+                  data-plain="${escAttr(q.search_query)}"
+                  data-human="${escAttr(q.search_query)}"
+                  aria-label="Search question on Brave Search">
+            <svg viewBox="0 0 24 24"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2z"/></svg>
+            <span>BRAVE</span>
+          </button>
+        </div>
+      </div>
+    `;
+
+    return li;
+  }
+
+  // 8. BUTTON ACTIONS WITH THREE FORMAT SUPPORT
+  function getPayloadForFormat(btn, fmt) {
+    if (fmt === 'latex') return btn.getAttribute('data-latex') || '';
+    if (fmt === 'plain') return btn.getAttribute('data-plain') || '';
+    if (fmt === 'human') return btn.getAttribute('data-human') || '';
+    return btn.getAttribute('data-latex') || '';
+  }
+
+  function handleCopy(btn) {
+    const text = getPayloadForFormat(btn, currentFormat);
+    const labelSpan = btn.querySelector('.btn-label');
+    const origText = labelSpan ? labelSpan.textContent : 'COPY';
+
+    const onSuccess = () => {
+      if (labelSpan) labelSpan.textContent = '✓ COPIED';
+      setTimeout(() => {
+        if (labelSpan) labelSpan.textContent = origText;
+      }, 1600);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+    } else {
+      fallbackCopy(text, onSuccess);
+    }
+  }
+
+  function fallbackCopy(text, cb) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.top = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      if (cb) cb();
+    } catch (e) {
+      console.warn('Copy failed:', e);
+    }
+    document.body.removeChild(ta);
+  }
+
+  function handleSolve(btn) {
+    const q = getPayloadForFormat(btn, currentFormat);
+    window.open('https://www.google.com/search?q=' + encodeURIComponent(q) + '&udm=50', '_blank', 'noopener,noreferrer');
+  }
+
+  function handlePerplexity(btn) {
+    const q = getPayloadForFormat(btn, currentFormat);
+    window.open('https://www.perplexity.ai/search?q=' + encodeURIComponent(q), '_blank', 'noopener,noreferrer');
+  }
+
+  function handleBrave(btn) {
+    const q = getPayloadForFormat(btn, currentFormat);
+    window.open('https://search.brave.com/ask?q=' + encodeURIComponent(q), '_blank', 'noopener,noreferrer');
+  }
+
+  // 9. SMART NAVIGATION DRAWER & ANCHOR DEEP-LINKING
+  function toggleNavDrawer(forceOpen) {
+    const drawer = document.getElementById('navDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const isOpen = drawer.classList.contains('open');
+    const shouldOpen = forceOpen !== undefined ? forceOpen : !isOpen;
+
+    drawer.classList.toggle('open', shouldOpen);
+    overlay.classList.toggle('open', shouldOpen);
+
+    if (shouldOpen) {
+      const input = document.getElementById('drawerSearchInput');
+      if (input) {
+        input.value = '';
+        input.focus();
+        filterDrawerNav('');
+      }
+    }
+  }
+
+  function renderDrawerNav() {
+    const body = document.getElementById('drawerNavBody');
+    if (!body) return;
+
+    let html = '';
+
+    // 1. Papers
+    html += '<div class="drawer-section-title">Exam Papers</div>';
+    PAPERS_DATA.forEach(p => {
+      const qCount = QUESTIONS_DATA.filter(q => q.paper_id === p.id).length;
+      html += `
+        <a href="#${p.id}" class="drawer-item" onclick="toggleNavDrawer(false)">
+          <span>📅 ${p.date}</span>
+          <span class="drawer-badge">${qCount} Qs</span>
+        </a>
+      `;
+    });
+
+    // 2. Categories
+    html += '<div class="drawer-section-title">Topic Categories</div>';
+    CATEGORIES_DATA.forEach(c => {
+      const qCount = QUESTIONS_DATA.filter(q => q.category === c.key).length;
+      html += `
+        <a href="#${c.id}" class="drawer-item" onclick="toggleNavDrawer(false)">
+          <span>${c.icon} ${c.title}</span>
+          <span class="drawer-badge">${qCount} Qs</span>
+        </a>
+      `;
+    });
+
+    // 3. Quick Question Jump List
+    html += '<div class="drawer-section-title">All 37 Questions (#ID)</div>';
+    QUESTIONS_DATA.forEach(q => {
+      html += `
+        <a href="#${q.id}" class="drawer-item q-item" data-search="${(q.plain_text + ' ' + q.category + ' ' + q.paper_date).toLowerCase()}" onclick="toggleNavDrawer(false)">
+          <span><strong>#${q.id}</strong> · ${q.category}</span>
+          <span class="drawer-badge">${q.paper_date.split(' ')[0]} ${q.paper_date.split(' ')[1] || ''}</span>
+        </a>
+      `;
+    });
+
+    body.innerHTML = html;
+  }
+
+  function filterDrawerNav(query) {
+    const q = (query || '').toLowerCase().trim();
+    const items = document.querySelectorAll('.drawer-body .drawer-item');
+    items.forEach(item => {
+      if (!q) {
+        item.style.display = 'flex';
+        return;
+      }
+      const searchTarget = (item.getAttribute('data-search') || item.textContent).toLowerCase();
+      item.style.display = searchTarget.includes(q) ? 'flex' : 'none';
+    });
+  }
+
+  // Handle URL hash navigation (#id)
+  function handleHashNavigation() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+
+    setTimeout(() => {
+      const target = document.getElementById(hash);
+      if (target) {
+        if (hash.startsWith('cat-') && currentSort !== 'category') {
+          setSortMode('category');
+          return;
+        } else if (hash.startsWith('apr-') || hash.startsWith('jun-') || hash.startsWith('jul-') || hash.startsWith('may-')) {
+          if (currentSort !== 'paper') {
+            setSortMode('paper');
+            return;
+          }
+        }
+
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.classList.add('anchor-highlight');
+        setTimeout(() => target.classList.remove('anchor-highlight'), 2600);
+      }
+    }, 120);
+  }
+</script>
+
 </body>
 </html>
