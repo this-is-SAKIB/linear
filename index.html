@@ -476,6 +476,31 @@
       color: var(--text);
     }
 
+    /* Fix: LaTeX / Plain modes render <pre><code>; the box styling above was applied
+       to both, producing nested boxes with overlapping borders. Style only the <pre>. */
+    .prob-text pre {
+      margin: 0;
+      line-height: 1.6;
+      overflow-x: auto;
+      user-select: text;
+      -webkit-user-select: text;
+      cursor: text;
+    }
+
+    .prob-text pre code {
+      display: inline;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      font-size: inherit;
+      line-height: inherit;
+      white-space: pre-wrap;
+      word-break: break-word;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
     .btn-group {
       display: flex;
       flex-wrap: wrap;
